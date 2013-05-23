@@ -1,0 +1,9 @@
+{
+  "name": "PCSC Bridge",
+  "version": "${FBSTRING_PLUGIN_VERSION}",
+  "description": "PCSC Winscard API Bridge",
+
+	"plugins": [
+    { "path": "npPCSCBridge.dll", "public": true }
+  ]
+}

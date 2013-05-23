@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+
+<article lang="en">
+<articleinfo>
+    <date>2013-05-22</date>
+</articleinfo>
+<simpara>PCSC Javascript  Bridge</simpara>
+<informalexample>
+<simpara>This plugin is based on firebreath framework and is still under developpement.</simpara>
+<simpara>Any reports, comments, request&#8230;. should be send to <ulink url="mailto:cedric.mesnil@ubinity.com">cedric.mesnil@ubinity.com</ulink></simpara>
+<simpara>Notation:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+hex number value are writen betwenn <emphasis>'<emphasis></emphasis>, eg '1A</emphasis> or <emphasis>1a</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+decimal numer value are writen as <emphasis>is</emphasis>, eg 10
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+literal string are writen between <emphasis>""</emphasis>; eg "a string"
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+literal hexa string start with #, eg #1babe0
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>For compilation, binary package and installation see the README file.</simpara>
+<simpara>This current plugin is not a direct access to the standard PCSC APIs.
+It&#8217;s more an object encapsulation of this APIs trying to simplying the card access and offering a minimal but easy ti use APIs.</simpara>
+<simpara>The plugin offers two kind of object:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+PCSCBridge
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+PCSCReader
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>PCSCBridge is the main entry point to the PCSC APIs.</simpara>
+<simpara>PCSCReader give acess to the reader and its inserted card.</simpara>
+<simpara>Note:</simpara>
+<simpara>PCSCLib object is also under developpment and will provide an exact mapping to the PCSCLite API.</simpara>
+<simpara>Before anything you must declare the plugin in your web page, load it, and initilize it in order to
+establish the PCSC context and get the root bridge object.</simpara>
+<simpara>The easiest way is to do that on the load page event:</simpara>
+<screen>    &lt;script type="text/javascript"&gt;
+        var bridge;
+        function load() {
+            bridge =  document.getElementById('pcscbridge');
+            bridge.init();
+        }
+    &lt;/script&gt;
+
+    &lt;body onload="load()"&gt;
+        &lt;object id="pcscbridge" type="application/x-pcscbridge" width="0" height="0"&gt;
+            &lt;param name="onload" value="pluginLoaded" /&gt;
+        &lt;/object&gt;&lt;br /&gt;
+
+        &lt;!-- INSERT HTML CODE --&gt;
+
+    &lt;/body&gt;</screen>
+<simpara>The root PCSCBridge object offers the following APIs:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+{string[]}  listReaders()
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>It also offer the following properties:</simpara>
+<literallayout class="monospaced">Returns array of currently found readers.</literallayout>
+<simpara>The select method build and return a new PCSCReader object.
+The select method does not try to connect to reader nor even check its existence.</simpara>
+<simpara>The provided prefix reader name will used later, when trying to power up the reader.
+At this moment the first reader available and starting with this prefix will be selected.</simpara>
+<simpara>The version of this plugin</simpara>
+<simpara>Each  PCSCReader object offers the following APIs:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+void powerDown()
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>It also offer the following ReadWrite properties:</simpara>
+<simpara>and also offer the following ReadOnly properties:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+atr
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+protocol
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+error
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+SW
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Finally the following constant (Readonly propeties is also
+ - SCARD_SHARE_SHARED
+ - SCARD_SHARE_EXCLUSIVE
+ - SCARD_SHARE_DIRECT
+ - SCARD_PROTOCOL_T0
+ - SCARD_PROTOCOL_T1
+ - SCARD_PROTOCOL_RAW</simpara>
+<simpara>If the reader is already powered, the reader is first powered down. The SCardDisconnect function is called.</simpara>
+<simpara>Then an existing reader with a name starting with the given prefix to the selectReader method is looked up. If found the reader is powerup (using SCardConnect) according the current value of <emphasis>scardMode</emphasis>, expecting a card is present, and the ATR is returned.</simpara>
+<simpara>If card is succefully powered, the <emphasis>ATR</emphasis> and <emphasis>protcol</emphasis>  properties are updated and the ATR is returned.</simpara>
+<simpara>If something goes wrong, the empty string is returned and the <emphasis>error</emphasis> contains the last error code.</simpara>
+<simpara>The reader is powered down, using SCardDisconnect function.</simpara>
+<simpara>This method does not return anything, but <emphasis>error</emphasis> should be checked.</simpara>
+<simpara>Send the given APDU (encoding as hexstring) to the card and return the card response as hexstring.</simpara>
+<simpara>This method send the APDU exactly as provided and does not try to handle any protocol specificities.
+Especially, the method does not automatique handle status word <emphasis>61xx</emphasis> and <emphasis>6Cxx</emphasis> and does not automically reissue any command nor send any GET_REPONSE</simpara>
+<simpara>Send the given APDU (encoding as hexstring) to the card and return the card response as hexstring.</simpara>
+<simpara>This method tries to be smart and :</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+handle automatically reissue the command in case of <emphasis>6Cxx</emphasis> status word, if the <emphasis>autoReissue</emphasis>
+    property is set to true
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+emmit automacally a GET_REPONSE in cose of <emphasis>61xx</emphasis> status word, if the <emphasis>autoGetResponse</emphasis>
+    property is set to true
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+if the APDU is an extended one, and extended length is not supported
+    (<emphasis>extendedLengthSupported</emphasis> set to false), this method try to automatically handle the T0
+   chaining, if <emphasis>autoChaining</emphasis> is set to true
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Contains ATR of last powerup, if card is still powered.</simpara>
+<simpara>Empty string if there is no powered card.</simpara>
+<simpara>Contains currently used protocol:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+1 for T1
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+0 for T0
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Contains last error code. A string description can be retrived from <emphasis>PCSCBridge.strError</emphasis> function.</simpara>
+<simpara>Last APDU status word.</simpara>
+<simpara>Behavior condition for exchangeAPDU method.
+Tell if the application on the powerd card support or not the extended APDU.</simpara>
+<simpara>Behavior condition for exchangeAPDU method.</simpara>
+<simpara>Behavior condition for exchangeAPDU method.</simpara>
+<simpara>Behavior condition for exchangeAPDU method.</simpara>
+<simpara>Used by SCardConnect during <emphasis>powerUp</emphasis> call. Possible values are:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+PCSCReader.SCARD_SHARE_SHARED
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+PCSCReader.SCARD_SHARE_EXCLUSIVE
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+PCSCReader.SCARD_SHARE_DIRECT
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Used by SCardConnect during <emphasis>powerUp</emphasis> call. Possible values are:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+PCSCReader.SCARD_PROTOCOL_T0
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+PCSCReader.SCARD_PROTOCOL_T1
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+PCSCReader.SCARD_PROTOCOL_RAW
+</simpara>
+</listitem>
+</itemizedlist>
+</informalexample>
+</article>

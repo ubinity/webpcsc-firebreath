@@ -1,0 +1,127 @@
+////////////////////////////////////////////////////////////////////////////
+Copyright (c) 2013 UBINITY SAS 
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+///////////////////////////////////////////////////////////////////////////
+
+
+
+PCSC Javascript  Bridge
+============================
+
+
+== Introduction
+
+This plugin is based on firebreath framework and is still under developpement.
+
+Make any reports, comments,.... to cedric.mesnil@ubinity.com
+
+
+[float,,4]
+Notation:
+
+
+  - Javascript type are writen between _{}_, eg {string}, {number}
+  - hex number value are writen betwenn _''_, eg '1A' or '1a'
+  - decimal numer value are writen as _is_, eg 10 
+  - literal string are writen between _""_; eg "a string"
+
+
+== Installing
+
+For compilation, binary package and installation see the README file.
+
+
+== Using
+
+This current plugin is not a direct access to the standard PCSC APIs. 
+It's more an object encapsulation of this APIs trying to simplying the card access and offering a minimal but easy ti use APIs.
+
+The plugin offers two kind of object:
+
+  - PCSCBridge
+  - PCSCReader
+
+PCSCBridge is the main entry point to the PCSC APIs
+
+
+=== Initing the plugin
+
+Before anything you must declare the plugin in your web page, load it, and initilize it in order to
+establish the PCSC context and get the root bridge object.
+
+The easiest way is to do that on the load page event:
+
+--------
+    <script type="text/javascript">
+        var bridge;
+        function load() {
+            bridge =  document.getElementById('pcscbridge');
+            bridge.init();
+        }
+    </script>  
+
+    <body onload="load()">
+        <object id="pcscbridge" type="application/x-pcscbridge" width="0" height="0">
+            <param name="onload" value="pluginLoaded" />
+        </object><br />
+
+        <!-- INSERT HTML CODE -->
+
+    </body>
+--------
+
+=== APIs
+
+==== PCSCBridge APIs
+
+The root PCSCBridge object offers the following APIs:
+
+  - {string[]}  listReaders()
+  - PCSCReader  selectReader({string} prefix_reader_name)
+  - {string}    strError({number} errcode
+
+It also offer the following properties:
+  - {string} version
+
+  
+===== listReaders
+
+ Returns array of currently found readers. 
+
+
+===== selectReader
+
+The select method build and return a new PCSCReader object. 
+The select method does not try to connect to reader nor even check its existence.
+
+The provided prefix reader name will used later, when trying to power up the reader. 
+At this moment the first reader available and starting with this prefix will be selected.
+
+===== version (ReadOnly)
+
+
+The version of this plugin
+
+==== PCSCReader APIs
+
+Each  PCSCReader object offers the following APIs:
+
+ - powerUp
+ - powerDown 
+ - transmit
+ - exchangeAPDU
+ - checkSW
+
+It also offer the following properties:
+

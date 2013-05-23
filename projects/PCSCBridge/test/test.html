@@ -1,0 +1,173 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>PCSC BRIDGE</title>
+    <!-- <script type="text/javascript" src="XXX.js"></script> -->
+  </head>
+  
+  
+  <script type="text/javascript">
+    var bridge;
+    var reader;
+    function load() {
+      var xch = document.forms["xch"];
+      xch.out.value   = "";
+      xch.sw.value    = "";
+      xch.err.value   = "";
+      document.forms["atr"].atr.value = "";
+  
+      bridge =  getPCSCBridge();
+      bridge.init();
+    }
+
+    function getPCSCBridge() {
+      return document.getElementById('pcscbridge');
+    }
+
+    function pluginLoaded() {
+      document.forms["plugin"].status.value = "LOADED";
+      
+      //alert("PCSC Bridge Plugin loaded!");
+    }
+
+    function listReaders() {
+      var list = bridge.listReaders(); 
+      var opts =  document.forms["readers"].rlst.options;
+      opts.length = 0;
+      list.forEach(function (r) {
+        opts[opts.length] = new Option(r,r,false,false);
+      });
+    }
+
+    function powerUp() {
+      var r = document.forms["readers"].rlst
+      reader = bridge.selectReader(r.options[r.selectedIndex].value);
+      var atr = reader.powerUp();
+      document.forms["atr"].atr.value = atr;
+    }
+
+    function powerDown() {
+      if (reader) {
+        reader.powerDown();
+       }
+      document.forms["atr"].atr.value = "";
+    }
+
+    function setConf() {
+      var xch = document.forms["xch"];
+      reader.autoGetResponse            = xch.autogetresp.checked;
+      reader.autoReissue                = xch.autoreissue.checked;
+      reader.autoChaining               = xch.autochain.checked;
+      reader.extendedLengthSupported    = xch.extendedsupported.checked;    
+    }
+    
+    function clrXCH() {
+      xch.out.value   = "";
+      xch.sw.value    = "";
+      xch.err.value   = "";
+    }
+
+    function updateXCH(resp) {
+      var xch = document.forms["xch"];
+      xch.out.value   = resp;
+      xch.sw.value    = reader.SW.toString(16);
+      xch.err.value   = reader.error + " ("+bridge.strError(reader.error)+")" ;    
+    }
+
+    function exchangeAPDU() {
+      clrXCH();
+      setConf();
+      var xch = document.forms["xch"];
+      var resp = reader.exchangeAPDU(xch.in.value, xch.extended.checked);
+      updateXCH(resp);
+    }
+
+    function transmitAPDU() {
+      clrXCH();
+      setConf();
+      var xch = document.forms["xch"];
+      var resp = reader.transmit(xch.in.value);
+      updateXCH(resp);
+    }
+
+  </script>  
+  
+  <body onload="load()">
+
+    <object id="pcscbridge" type="application/x-pcscbridge" width="0" height="0">
+      <param name="onload" value="pluginLoaded" />
+    </object><br />
+
+    <h1>Plugin Status</h1>
+     <form name="plugin" onsubmit="return false">
+       <input type="text" name="status" value="not loaded" size="20" readonly><br/>
+     </form>
+
+    <h1>Readers</h1>
+    <form name="readers" onsubmit="return false">
+      Select a reader:</br>
+      <input type="submit" value="Get reader list" onclick="listReaders()"><br/>
+       <select name="rlst">
+      </select><br/>
+    </form>
+
+    <h1>Power</h1>
+    <form name="atr" onsubmit="return false">
+      <input type="text"   name="atr" size="80" readonly><br/>
+      <input type="submit" value="up" onclick="powerUp()">
+      <input type="submit" value="down" onclick="powerDown()">
+    </form>
+
+    <h1>Exchange</h1>
+    <!-- 00A4040006D27600012401  -->
+    <form name="xch" onsubmit="return false">
+      Some well known openGPG card command
+      <pre>
+        select:  00A4040006D27600012401 
+        get   :  00CA004F00
+        get   :  00CA006E00        
+      </pre>
+      <table>
+        <tr>
+          <td><input type="checkbox" name="extendedsupported"/></td>
+          <td>extended supported</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="autoreissue"/> </td>
+          <td>auto Reissue </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="autogetresp"/> </td>
+          <td>auto GetResponse </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="autochain"/></td>
+          <td>auto Chain </td>
+        </tr>
+        <tr>
+          <td> in :</td>
+          <td>
+            <input type="text" value="" name="in"  size="150" />
+            <input type="checkbox" name="extended"/>  extended
+          </td>
+        </tr>
+        <tr>
+          <td> out: </td>
+          <td><input type="text" value="" name="out" size="150" readonly></td>
+        </tr>
+        <tr>
+          <td> SW:  </td>
+          <td><input type="text" value="" name="sw" size="150" readonly></td>
+        </tr>
+        <tr>
+          <td> err:</td>
+          <td><input type="text" value="" name="err" size="150" readonly></td>
+        </tr>
+      </table>
+      <input type="submit" value="exchange" onclick="exchangeAPDU()">
+      <input type="submit" value="transmit" onclick="transmitAPDU()">
+    </form>
+    
+  </body>
+</html>
