@@ -21,7 +21,7 @@ How to build
   * Let's say FBPlugins is the firebreath root 
   * Git clone pcsc project, you should have:   FBPlugins/projects/PCSCBridge/PCSCBridge.cpp
 
-(Note that README.md will overide the one of firebreath if you git-clone in place)
+Note that this README.md will overide the one of firebreath if you git-clone in place.
 
 #### Under Linux:
 
