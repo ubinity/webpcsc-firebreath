@@ -19,7 +19,9 @@ How to build
 
   * Download FireBreath from http://www.firebreath.org/
   * Let's say FBPlugins is the firebreath root 
-  * Git clone pcsc project, you should have: FBPlugins/projects/pcscBrowserPlugin/README.md
+  * Git clone pcsc project, you should have:   FBPlugins/projects/PCSCBridge/PCSCBridge.cpp
+
+(Note that README.md will overide the one of firebreath if you git-clone in place)
 
 #### Under Linux:
 
