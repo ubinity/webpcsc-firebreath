@@ -61,7 +61,7 @@ Note that this README.md will overide the one of firebreath if you git-clone in 
 How to use 
 -----------
 
-See doc/PCSCBridge.asc
+See dist/doc/PCSCBridge.html
 
 
 License
