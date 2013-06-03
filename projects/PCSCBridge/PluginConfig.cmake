@@ -39,7 +39,7 @@ set(MOZILLA_PLUGINID "ubinity.com/PCSCBridge")
 # strings
 set(FBSTRING_CompanyName "Ubinity SAS")
 set(FBSTRING_PluginDescription "PCSC Winscard API Bridge")
-set(FBSTRING_PLUGIN_VERSION "1.0.0.0")
+set(FBSTRING_PLUGIN_VERSION "0.2.0.0")
 set(FBSTRING_LegalCopyright "Copyright 2013 Ubinity SAS")
 set(FBSTRING_PluginFileName "np${PLUGIN_NAME}.dll")
 set(FBSTRING_ProductName "PCSC Bridge")

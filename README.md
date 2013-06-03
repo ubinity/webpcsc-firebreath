@@ -28,7 +28,7 @@ Note that this README.md will overide the one of firebreath if you git-clone in 
      Copy $(FBPlugins)/cmake/Modules/FindPCSCLite.cmake into /usr/share/cmake-2.8/Modules/ (or something like that)
      
      In $(FBPlugins)
-       prepmake.sh
+       prepmake.sh  [-D CMAKE_BUILD_TYPE="Debug"]
        cd build
        make
      
