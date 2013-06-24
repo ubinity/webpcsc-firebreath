@@ -19,13 +19,13 @@ How to build
 
   * Download FireBreath from http://www.firebreath.org/
   * Let's say FBPlugins is the firebreath root 
-  * Git clone pcsc project, you should have:   FBPlugins/projects/PCSCBridge/PCSCBridge.cpp
+  * Git clone pcsc project, you should have:   $(FBPlugins)/projects/PCSCBridge/PCSCBridge.cpp
 
 Note that this README.md will overide the one of firebreath if you git-clone in place.
 
 #### Under Linux:
 
-     Copy $(FBPlugins)/cmake/Modules/FindPCSCLite.cmake into /usr/share/cmake-2.8/Modules/ (or something like that)
+     Copy $(FBPlugins)/ext/FindPCSCLite.cmake into /usr/share/cmake-2.8/Modules/ (or something like that)
      
      In $(FBPlugins)
        prepmake.sh  [-D CMAKE_BUILD_TYPE="Debug"]
@@ -47,8 +47,8 @@ Note that this README.md will overide the one of firebreath if you git-clone in 
                                  PROPERTIES LINK_FLAGS  "/LIBPATH:\"C:\\WinDDK\\7600.16385.1\\lib\\ATL\\i386\" winscard.lib")
      
      In $(FBPlugins)
-       ./prep2008.cmd
-     open project $(FBPlugins)/build/projects/PCSCBridge/PCSCBridge.sln with VCexpress 2008
+       ./prep2010.cmd
+     open project $(FBPlugins)/build/projects/PCSCBridge/PCSCBridge.sln with VCexpress 2010
      build
      
      dll is here
