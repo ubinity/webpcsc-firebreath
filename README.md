@@ -1,4 +1,4 @@
-webhidapi-firebreath
+webpcsc-firebreath
 ====================
 
 Browser plug-in interface to PCSC using FireBreath, exposing methods through JavaScript interfaces (for Linux, Windows, and oneday OS X)
