@@ -19,8 +19,42 @@
       return "0x" + u.toString(16);
     }
 
+    <!-- ============================= INIT ========================== -->
 
+    var scard;
+
+    var bridge;
+    var terminals;
+    var reader;
     
+    function load() {
+
+    }
+
+    function getPCSCBridge() {
+      return document.getElementById('pcscbridge');
+    }
+    
+    function webpcscInit() {
+      var xch = document.forms["xch"];
+      xch.out.value   = "";
+      xch.err.value   = "";
+      //document.forms["atr"].atr.value = "";
+  
+      bridge =  getPCSCBridge();
+
+      terminals = bridge.getTerminalAPI();
+      scard     = bridge.getSCardAPI();
+
+      document.forms["plugin"].inited_status.value = "INITED";
+    }
+
+    function pluginLoaded() {
+      document.forms["plugin"].loaded_status.value = "LOADED";
+      
+      //alert("PCSC Bridge Plugin loaded!");
+    }
+
     <!-- ============================= SCard API ========================== -->
 
     function SCard_Establish() {
@@ -231,34 +265,7 @@
 
 
     <!-- ============================= CAD API ========================== -->
-    var scard;
-
-    var bridge;
-    var terminals;
-    var reader;
-    
-    function load() {
-      var xch = document.forms["xch"];
-      xch.out.value   = "";
-      xch.err.value   = "";
-      //document.forms["atr"].atr.value = "";
-  
-      bridge =  getPCSCBridge();
-
-      terminals = bridge.getTerminalAPI();
-      scard     = bridge.getSCardAPI();
-    }
-
-    function getPCSCBridge() {
-      return document.getElementById('pcscbridge');
-    }
-
-    function pluginLoaded() {
-      document.forms["plugin"].status.value = "LOADED";
-      
-      //alert("PCSC Bridge Plugin loaded!");
-    }
-
+ 
     function lstReaders() {
       var list = terminals.listReaders(); 
       var opts =  document.forms["readers"].rlst.options;
@@ -332,14 +339,14 @@
       Copyright (c) 2013 UBINITY SAS 
       <br/><br/>
       Licensed under the Apache License, Version 2.0 (the "License");<br/>
-      you may not use this file except in compliance with the License.
+      you may not use this file except in compliance with the License. <br/>
       You may obtain a copy of the License at
       <br/><br/>
       http://www.apache.org/licenses/LICENSE-2.0
       <br/><br/>
-      Unless required by applicable law or agreed to in writing, software
-      distributed under the License is distributed on an "AS IS" BASIS,
-      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      Unless required by applicable law or agreed to in writing, <br/>
+      software distributed under the License is distributed on an "AS IS" BASIS, <br/>
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. <br/>
       See the License for the specific language governing permissions and
       limitations under the License.
       <br/><br/>
@@ -347,8 +354,11 @@
 
     <hr/><hr/>
     <h1>Plugin Status</h1>
+    Accept the to plugin to run always and click "Init" button once "LOADED" is displayed.<br/>
      <form name="plugin" onsubmit="return false">
-       <input type="text" name="status" value="not loaded" size="20" readonly><br/>
+       <input type="text" name="loaded_status" value="Not Loaded" size="20" readonly><br/>
+       <input type="text" name="inited_status" value="Not Inited" size="20" readonly><br/>
+       <input type="submit" value="Init"  onclick="webpcscInit()">  <br/></br>
      </form>
 
 

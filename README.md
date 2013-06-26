@@ -3,6 +3,11 @@ webhidapi-firebreath
 
 Browser plug-in interface to PCSC using FireBreath, exposing methods through JavaScript interfaces (for Linux, Windows, and oneday OS X)
 
+How to use 
+-----------
+
+See dist/doc/PCSCBridge.html for documentation and projects/PCSCBridge/test/test.html for a short sample 
+
 
 How to build
 -------------
@@ -58,10 +63,7 @@ Note that this README.md will overide the one of firebreath if you git-clone in 
 
 
 
-How to use 
------------
 
-See dist/doc/PCSCBridge.html
 
 
 License

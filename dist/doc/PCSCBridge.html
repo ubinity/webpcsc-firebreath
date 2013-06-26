@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>PCSC Javascript Bridge User Guide</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.76.1" /></head><body><div xml:lang="en" class="article" title="PCSC Javascript Bridge User Guide" lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="idp84432"></a>PCSC Javascript Bridge User Guide</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Cédric Mesnil &lt;cedric dot mesnil at ubinity dot com&gt;</span></h3></div></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="3"><strong>Revision History</strong></th></tr><tr><td align="left">Revision 0.2</td><td align="left">June 2013</td><td align="left">C</td></tr></table></div></div></div><hr /></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="section"><a href="#_introduction">1. Introduction</a></span></dt><dt><span class="section"><a href="#_compile_amp_install">2. Compile &amp; Install</a></span></dt><dd><dl><dt><span class="section"><a href="#_compilation">2.1. Compilation</a></span></dt><dt><span class="section"><a href="#_firefox_chrome_under_windows_linux">2.2. Firefox/Chrome under Windows/Linux</a></span></dt><dt><span class="section"><a href="#_other_browsers_under_windows">2.3. Other browsers under windows</a></span></dt><dt><span class="section"><a href="#_mac_os">2.4. MAC/OS</a></span></dt></dl></dd><dt><span class="section"><a href="#_initing_the_plugin">3. Initing the plugin</a></span></dt><dt><span class="section"><a href="#_pcscbridge_apis">4. PCSCBridge APIs</a></span></dt><dt><span class="section"><a href="#_scard_apis">5. SCard APIs</a></span></dt><dd><dl><dt><span class="section"><a href="#_establishcontext">5.1. EstablishContext</a></span></dt><dt><span class="section"><a href="#_releasecontext">5.2. ReleaseContext</a></span></dt><dt><span class="section"><a href="#_connect">5.3. Connect</a></span></dt><dt><span class="section"><a href="#_disconnect">5.4. Disconnect</a></span></dt><dt><span class="section"><a href="#_transmit">5.5. Transmit</a></span></dt><dt><span class="section"><a href="#_status">5.6. Status</a></span></dt><dt><span class="section"><a href="#_isvalidcontext">5.7. IsValidContext</a></span></dt><dt><span class="section"><a href="#_begintransaction">5.8. BeginTransaction</a></span></dt><dt><span class="section"><a href="#_endtransaction">5.9. EndTransaction</a></span></dt><dt><span class="section"><a href="#_listreaders">5.10. ListReaders</a></span></dt><dt><span class="section"><a href="#_cancel">5.11. Cancel</a></span></dt><dt><span class="section"><a href="#_getstatuschange">5.12. GetStatusChange</a></span></dt><dt><span class="section"><a href="#_control">5.13. Control</a></span></dt><dt><span class="section"><a href="#_getattrib">5.14. GetAttrib</a></span></dt><dt><span class="section"><a href="#_setattrib">5.15. SetAttrib</a></span></dt></dl></dd><dt><span class="section"><a href="#_terminal_reader_apis">6. TERMINAL/READER APIs</a></span></dt><dd><dl><dt><span class="section"><a href="#_pcscterminal_apis">6.1. PCSCTerminal APIs</a></span></dt><dt><span class="section"><a href="#_pcscreader_apis">6.2. PCSCReader APIs</a></span></dt><dt><span class="section"><a href="#_example">6.3. Example</a></span></dt></dl></dd></dl></div><div class="section" title="1. Introduction"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_introduction"></a>1. Introduction</h2></div></div></div><p>This plugin is based on firebreath framework and is still under development.</p><p>Any reports, comments, request….please use the github interface: <a class="ulink" href="https://github.com/ubinity/webpcsc-firebreath" target="_top">https://github.com/ubinity/webpcsc-firebreath</a>.
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>PCSC Javascript Bridge User Guide</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.76.1" /></head><body><div xml:lang="en" class="article" title="PCSC Javascript Bridge User Guide" lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="idm25696"></a>PCSC Javascript Bridge User Guide</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Cédric Mesnil &lt;cedric dot mesnil at ubinity dot com&gt;</span></h3></div></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="3"><strong>Revision History</strong></th></tr><tr><td align="left">Revision 0.2</td><td align="left">June 2013</td><td align="left">C</td></tr></table></div></div></div><hr /></div><div class="toc"><p><strong>Table of Contents</strong></p><dl><dt><span class="section"><a href="#_introduction">1. Introduction</a></span></dt><dt><span class="section"><a href="#_compile_amp_install">2. Compile &amp; Install</a></span></dt><dd><dl><dt><span class="section"><a href="#_compilation">2.1. Compilation</a></span></dt><dt><span class="section"><a href="#_firefox_chrome_under_windows_linux">2.2. Firefox/Chrome under Windows/Linux</a></span></dt><dt><span class="section"><a href="#_other_browsers_under_windows">2.3. Other browsers under windows</a></span></dt><dt><span class="section"><a href="#_mac_os">2.4. MAC/OS</a></span></dt></dl></dd><dt><span class="section"><a href="#_initing_the_plugin">3. Initing the plugin</a></span></dt><dt><span class="section"><a href="#_pcscbridge_apis">4. PCSCBridge APIs</a></span></dt><dt><span class="section"><a href="#_scard_apis">5. SCard APIs</a></span></dt><dd><dl><dt><span class="section"><a href="#_establishcontext">5.1. EstablishContext</a></span></dt><dt><span class="section"><a href="#_releasecontext">5.2. ReleaseContext</a></span></dt><dt><span class="section"><a href="#_connect">5.3. Connect</a></span></dt><dt><span class="section"><a href="#_disconnect">5.4. Disconnect</a></span></dt><dt><span class="section"><a href="#_transmit">5.5. Transmit</a></span></dt><dt><span class="section"><a href="#_status">5.6. Status</a></span></dt><dt><span class="section"><a href="#_isvalidcontext">5.7. IsValidContext</a></span></dt><dt><span class="section"><a href="#_begintransaction">5.8. BeginTransaction</a></span></dt><dt><span class="section"><a href="#_endtransaction">5.9. EndTransaction</a></span></dt><dt><span class="section"><a href="#_listreaders">5.10. ListReaders</a></span></dt><dt><span class="section"><a href="#_cancel">5.11. Cancel</a></span></dt><dt><span class="section"><a href="#_getstatuschange">5.12. GetStatusChange</a></span></dt><dt><span class="section"><a href="#_control">5.13. Control</a></span></dt><dt><span class="section"><a href="#_getattrib">5.14. GetAttrib</a></span></dt><dt><span class="section"><a href="#_setattrib">5.15. SetAttrib</a></span></dt></dl></dd><dt><span class="section"><a href="#_terminal_reader_apis">6. TERMINAL/READER APIs</a></span></dt><dd><dl><dt><span class="section"><a href="#_pcscterminal_apis">6.1. PCSCTerminal APIs</a></span></dt><dt><span class="section"><a href="#_pcscreader_apis">6.2. PCSCReader APIs</a></span></dt></dl></dd><dt><span class="section"><a href="#_example">7. Example</a></span></dt></dl></div><div class="section" title="1. Introduction"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_introduction"></a>1. Introduction</h2></div></div></div><p>This plugin is based on firebreath framework and is still under development.</p><p>Any reports, comments, request….please use the github interface: <a class="ulink" href="https://github.com/ubinity/webpcsc-firebreath" target="_top">https://github.com/ubinity/webpcsc-firebreath</a>.
 (You  may also email at <code class="literal">cedric dot mesnil at ubinity dot com</code>)</p><p>The plugin offers 2 access levels to the PCSC API:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
 a one-to-one PCSCLite function mapping.
 </li><li class="listitem">
@@ -14,7 +14,7 @@ TerminalAPI
 </li><li class="listitem">
 ReaderAPI
 </li></ul></div><p>PCSCBridge is the main entry point to the PCSC APIs. (There is single instance of this object).</p><p>SCardAPI provides PCSCLite API. (There is single instance of this object).</p><p>TerminalAPI and ReaderAPI give access to the reader and its inserted card in a simple way.</p><div class="itemizedlist" title="Notation:"><p class="title"><strong>Notation:</strong></p><ul class="itemizedlist" type="disc"><li class="listitem">
-Javascript type are written between { }, eg {string}, {number}
+Javascript type are written bolded-emphasized-monospaced,  eg <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span> ,<span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
 hex number value are written between ` ' , eg ‘1A’ or ‘1a’
 </li><li class="listitem">
@@ -25,415 +25,426 @@ literal string are written between " "; eg "a string"
 literal hexa string start with #, eg #1babe0
 </li></ul></div><div class="itemizedlist" title="Firebreath:"><p class="title"><strong>Firebreath:</strong></p><ul class="itemizedlist" type="disc"><li class="listitem">
 See <a class="ulink" href="http://www.firebreath.org/" target="_top">http://www.firebreath.org/</a> for any details about this framework.
-</li></ul></div></div><div class="section" title="2. Compile &amp; Install"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_compile_amp_install"></a>2. Compile &amp; Install</h2></div></div></div><div class="section" title="2.1. Compilation"><div class="titlepage"><div><div><h3 class="title"><a id="_compilation"></a>2.1. Compilation</h3></div></div></div><p>For compilation, binary package see the README file.</p></div><div class="section" title="2.2. Firefox/Chrome under Windows/Linux"><div class="titlepage"><div><div><h3 class="title"><a id="_firefox_chrome_under_windows_linux"></a>2.2. Firefox/Chrome under Windows/Linux</h3></div></div></div><p>Intall either  <code class="literal">dist/chrome/PCSCBridgeExtension.crx</code> or <code class="literal">dist/firefox/PCSCBridgeExtension.xpi</code> extension pack.</p></div><div class="section" title="2.3. Other browsers under windows"><div class="titlepage"><div><div><h3 class="title"><a id="_other_browsers_under_windows"></a>2.3. Other browsers under windows</h3></div></div></div><p>Directly register the dll with:</p><pre class="screen">    regserv32    dist/libs/npPCSCBridge.dll</pre><p>Note this will install the dll plugin for all browsers. To unregister the dll use:</p><pre class="screen">    regserv32 /u dist/libs/npPCSCBridge.dll</pre></div><div class="section" title="2.4. MAC/OS"><div class="titlepage"><div><div><h3 class="title"><a id="_mac_os"></a>2.4. MAC/OS</h3></div></div></div><p>Not supported yet.</p></div></div><div class="section" title="3. Initing the plugin"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_initing_the_plugin"></a>3. Initing the plugin</h2></div></div></div><p>Before anything you must declare the plugin in your web page, load it, and initialize it in order to
-establish the PCSC context and get the root bridge object.</p><p>The easiest way is to do that on the load page event:</p><pre class="screen">    &lt;script type="text/javascript"&gt;
+</li></ul></div></div><div class="section" title="2. Compile &amp; Install"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_compile_amp_install"></a>2. Compile &amp; Install</h2></div></div></div><div class="section" title="2.1. Compilation"><div class="titlepage"><div><div><h3 class="title"><a id="_compilation"></a>2.1. Compilation</h3></div></div></div><p>For compilation, binary package see the README file.</p></div><div class="section" title="2.2. Firefox/Chrome under Windows/Linux"><div class="titlepage"><div><div><h3 class="title"><a id="_firefox_chrome_under_windows_linux"></a>2.2. Firefox/Chrome under Windows/Linux</h3></div></div></div><p>Intall either  <code class="literal">dist/chrome/PCSCBridgeExtension.crx</code> or <code class="literal">dist/firefox/PCSCBridgeExtension.xpi</code> extension pack.</p><p>You can also copy the <code class="literal">build/bin/PCSCBridge/npPCSCBridge.so</code> plugin binary in <code class="literal">~/.mozilla/plugins</code> directory. This will pseudo-install the
+plugin for chrome, firefox and maybe other browsers.</p></div><div class="section" title="2.3. Other browsers under windows"><div class="titlepage"><div><div><h3 class="title"><a id="_other_browsers_under_windows"></a>2.3. Other browsers under windows</h3></div></div></div><p>Directly register the dll with:</p><pre class="screen">    regserv32    dist/libs/npPCSCBridge.dll</pre><p>Note this will install the dll plugin for all browsers. To unregister the dll use:</p><pre class="screen">    regserv32 /u dist/libs/npPCSCBridge.dll</pre></div><div class="section" title="2.4. MAC/OS"><div class="titlepage"><div><div><h3 class="title"><a id="_mac_os"></a>2.4. MAC/OS</h3></div></div></div><p>Not supported yet.</p></div></div><div class="section" title="3. Initing the plugin"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_initing_the_plugin"></a>3. Initing the plugin</h2></div></div></div><p>Before anything you must declare the plugin in your web page, load it, and initialize it in order to
+establish the PCSC context and get the root bridge object.</p><p>The easiest way is to do that on the load page event:</p><pre class="screen">    &amp;lt;script type="text/javascript"&amp;gt;
         var bridge;
         function load() {
-            bridge =  document.getElementById('pcscbridge');
+            bridge =  document.getElementById(<span class="emphasis"><em>pcscbridge</em></span>);
             bridge.init();
         }
-    &lt;/script&gt;
+    &amp;lt;/script&amp;gt;
 
-    &lt;body onload="load()"&gt;
-        &lt;object id="pcscbridge" type="application/x-pcscbridge" width="0" height="0"&gt;
-            &lt;param name="onload" value="pluginLoaded" /&gt;
-        &lt;/object&gt;&lt;br /&gt;
+    &amp;lt;body onload="load()"&amp;gt;
+        &amp;lt;object id="pcscbridge" type="application/x-pcscbridge" width="0" height="0"&amp;gt;
+            &amp;lt;param name="onload" value="pluginLoaded" /&amp;gt;
+        &amp;lt;/object&amp;gt;&amp;lt;br /&amp;gt;
 
-        &lt;!-- INSERT HTML CODE --&gt;
+        &amp;lt;!-- INSERT HTML CODE --&amp;gt;
 
-    &lt;/body&gt;</pre></div><div class="section" title="4. PCSCBridge APIs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_pcscbridge_apis"></a>4. PCSCBridge APIs</h2></div></div></div><p>The root PCSCBridge object offers the following APIs:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+    &amp;lt;/body&amp;gt;</pre></div><div class="section" title="4. PCSCBridge APIs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_pcscbridge_apis"></a>4. PCSCBridge APIs</h2></div></div></div><p>The root PCSCBridge object offers the following APIs:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
 TerminalAPI getTerminalAPI()
 </li><li class="listitem">
 SCardAPI    getSCardAPI()
 </li></ul></div><p>It also offer the following read only properties:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
-{string} version
+version:                              <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_SHARE_SHARED
+SCARD_SHARE_SHARED:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_SHARE_EXCLUSIVE
+SCARD_SHARE_EXCLUSIVE:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_SHARE_DIRECT
+SCARD_SHARE_DIRECT:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_PROTOCOL_T0
+SCARD_PROTOCOL_T0:                    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_PROTOCOL_T1
+SCARD_PROTOCOL_T1:                    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_PROTOCOL_RAW
+SCARD_PROTOCOL_RAW:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_PROTOCOL_T15
+SCARD_PROTOCOL_T15:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_LEAVE_CARD
+SCARD_LEAVE_CARD:                     <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_RESET_CARD
+SCARD_RESET_CARD:                     <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_UNPOWER_CARD
+SCARD_UNPOWER_CARD:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_EJECT_CARD
+SCARD_EJECT_CARD:                     <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_UNKNOWN
+SCARD_UNKNOWN:                        <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ABSENT
+SCARD_ABSENT:                         <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_PRESENT
+SCARD_PRESENT:                        <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_SWALLOWED
+SCARD_SWALLOWED:                      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_POWERED
+SCARD_POWERED:                        <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_NEGOTIABLE
+SCARD_NEGOTIABLE:                     <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_SPECIFIC
+SCARD_SPECIFIC:                       <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_UNAWARE
+SCARD_STATE_UNAWARE:                  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_IGNORE
+SCARD_STATE_IGNORE:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_CHANGED
+SCARD_STATE_CHANGED:                  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_UNKNOWN
+SCARD_STATE_UNKNOWN:                  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_UNAVAILABLE
+SCARD_STATE_UNAVAILABLE:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_EMPTY
+SCARD_STATE_EMPTY:                    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_PRESENT
+SCARD_STATE_PRESENT:                  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_ATRMATCH
+SCARD_STATE_ATRMATCH:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_EXCLUSIVE
+SCARD_STATE_EXCLUSIVE:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_INUSE
+SCARD_STATE_INUSE:                    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_MUTE
+SCARD_STATE_MUTE:                     <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_STATE_UNPOWERED
+SCARD_STATE_UNPOWERED:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_VENDOR_NAME
+SCARD_ATTR_VENDOR_NAME:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_VENDOR_IFD_TYPE
+SCARD_ATTR_VENDOR_IFD_TYPE:           <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_VENDOR_IFD_VERSION
+SCARD_ATTR_VENDOR_IFD_VERSION:        <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_VENDOR_IFD_SERIAL_NO
+SCARD_ATTR_VENDOR_IFD_SERIAL_NO:      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CHANNEL_ID
+SCARD_ATTR_CHANNEL_ID:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_ASYNC_PROTOCOL_TYPES
+SCARD_ATTR_ASYNC_PROTOCOL_TYPES:      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_DEFAULT_CLK
+SCARD_ATTR_DEFAULT_CLK:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_MAX_CLK
+SCARD_ATTR_MAX_CLK:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_DEFAULT_DATA_RATE
+SCARD_ATTR_DEFAULT_DATA_RATE:         <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_MAX_DATA_RATE
+SCARD_ATTR_MAX_DATA_RATE:             <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_MAX_IFSD
+SCARD_ATTR_MAX_IFSD:                  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_SYNC_PROTOCOL_TYPES
+SCARD_ATTR_SYNC_PROTOCOL_TYPES:       <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_POWER_MGMT_SUPPORT
+SCARD_ATTR_POWER_MGMT_SUPPORT:        <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_USER_TO_CARD_AUTH_DEVICE
+SCARD_ATTR_USER_TO_CARD_AUTH_DEVICE:  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_USER_AUTH_INPUT_DEVICE
+SCARD_ATTR_USER_AUTH_INPUT_DEVICE:    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CHARACTERISTICS
+SCARD_ATTR_CHARACTERISTICS:           <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_PROTOCOL_TYPE
+SCARD_ATTR_CURRENT_PROTOCOL_TYPE:     <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_CLK
+SCARD_ATTR_CURRENT_CLK:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_F
+SCARD_ATTR_CURRENT_F:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_D
+SCARD_ATTR_CURRENT_D:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_N
+SCARD_ATTR_CURRENT_N:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_W
+SCARD_ATTR_CURRENT_W:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_IFSC
+SCARD_ATTR_CURRENT_IFSC:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_IFSD
+SCARD_ATTR_CURRENT_IFSD:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_BWT
+SCARD_ATTR_CURRENT_BWT:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_CWT
+SCARD_ATTR_CURRENT_CWT:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_EBC_ENCODING
+SCARD_ATTR_CURRENT_EBC_ENCODING:      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_EXTENDED_BWT
+SCARD_ATTR_EXTENDED_BWT:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_ICC_PRESENCE
+SCARD_ATTR_ICC_PRESENCE:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_ICC_INTERFACE_STATUS
+SCARD_ATTR_ICC_INTERFACE_STATUS:      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_CURRENT_IO_STATE
+SCARD_ATTR_CURRENT_IO_STATE:          <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_ATR_STRING
+SCARD_ATTR_ATR_STRING:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_ICC_TYPE_PER_ATR
+SCARD_ATTR_ICC_TYPE_PER_ATR:          <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_ESC_RESET
+SCARD_ATTR_ESC_RESET:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_ESC_CANCEL
+SCARD_ATTR_ESC_CANCEL:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_ESC_AUTHREQUEST
+SCARD_ATTR_ESC_AUTHREQUEST:           <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_MAXINPUT
+SCARD_ATTR_MAXINPUT:                  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_DEVICE_UNIT
+SCARD_ATTR_DEVICE_UNIT:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_DEVICE_IN_USE
+SCARD_ATTR_DEVICE_IN_USE:             <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_DEVICE_FRIENDLY_NAME
+SCARD_ATTR_DEVICE_FRIENDLY_NAME:      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_DEVICE_SYSTEM_NAME
+SCARD_ATTR_DEVICE_SYSTEM_NAME:        <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_ATTR_SUPRESS_T1_IFS_REQUEST
+SCARD_ATTR_SUPRESS_T1_IFS_REQUEST:    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_S_SUCCESS
+SCARD_S_SUCCESS:                      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_F_INTERNAL_ERROR
+SCARD_F_INTERNAL_ERROR:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_CANCELLED
+SCARD_E_CANCELLED:                    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_INVALID_HANDLE
+SCARD_E_INVALID_HANDLE:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_INVALID_PARAMETER
+SCARD_E_INVALID_PARAMETER:            <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_INVALID_TARGET
+SCARD_E_INVALID_TARGET:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NO_MEMORY
+SCARD_E_NO_MEMORY:                    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_F_WAITED_TOO_LONG
+SCARD_F_WAITED_TOO_LONG:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_INSUFFICIENT_BUFFER
+SCARD_E_INSUFFICIENT_BUFFER:          <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_UNKNOWN_READER
+SCARD_E_UNKNOWN_READER:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_TIMEOUT
+SCARD_E_TIMEOUT:                      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_SHARING_VIOLATION
+SCARD_E_SHARING_VIOLATION:            <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NO_SMARTCARD
+SCARD_E_NO_SMARTCARD:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_UNKNOWN_CARD
+SCARD_E_UNKNOWN_CARD:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_CANT_DISPOSE
+SCARD_E_CANT_DISPOSE:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_PROTO_MISMATCH
+SCARD_E_PROTO_MISMATCH:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NOT_READY
+SCARD_E_NOT_READY:                    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_INVALID_VALUE
+SCARD_E_INVALID_VALUE:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_SYSTEM_CANCELLED
+SCARD_E_SYSTEM_CANCELLED:             <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_F_COMM_ERROR
+SCARD_F_COMM_ERROR:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_F_UNKNOWN_ERROR
+SCARD_F_UNKNOWN_ERROR:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_INVALID_ATR
+SCARD_E_INVALID_ATR:                  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NOT_TRANSACTED
+SCARD_E_NOT_TRANSACTED:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_READER_UNAVAILABLE
+SCARD_E_READER_UNAVAILABLE:           <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_P_SHUTDOWN
+SCARD_P_SHUTDOWN:                     <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_PCI_TOO_SMALL
+SCARD_E_PCI_TOO_SMALL:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_READER_UNSUPPORTED
+SCARD_E_READER_UNSUPPORTED:           <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_DUPLICATE_READER
+SCARD_E_DUPLICATE_READER:             <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_CARD_UNSUPPORTED
+SCARD_E_CARD_UNSUPPORTED:             <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NO_SERVICE
+SCARD_E_NO_SERVICE:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_SERVICE_STOPPED
+SCARD_E_SERVICE_STOPPED:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_UNEXPECTED
+SCARD_E_UNEXPECTED:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_UNSUPPORTED_FEATURE
+SCARD_E_UNSUPPORTED_FEATURE:          <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_ICC_INSTALLATION
+SCARD_E_ICC_INSTALLATION:             <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_ICC_CREATEORDER
+SCARD_E_ICC_CREATEORDER:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_DIR_NOT_FOUND
+SCARD_E_DIR_NOT_FOUND:                <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_FILE_NOT_FOUND
+SCARD_E_FILE_NOT_FOUND:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NO_DIR
+SCARD_E_NO_DIR:                       <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NO_FILE
+SCARD_E_NO_FILE:                      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NO_ACCESS
+SCARD_E_NO_ACCESS:                    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_WRITE_TOO_MANY
+SCARD_E_WRITE_TOO_MANY:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_BAD_SEEK
+SCARD_E_BAD_SEEK:                     <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_INVALID_CHV
+SCARD_E_INVALID_CHV:                  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_UNKNOWN_RES_MNG
+SCARD_E_UNKNOWN_RES_MNG:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NO_SUCH_CERTIFICATE
+SCARD_E_NO_SUCH_CERTIFICATE:          <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_CERTIFICATE_UNAVAILABLE
+SCARD_E_CERTIFICATE_UNAVAILABLE:      <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NO_READERS_AVAILABLE
+SCARD_E_NO_READERS_AVAILABLE:         <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_COMM_DATA_LOST
+SCARD_E_COMM_DATA_LOST:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_NO_KEY_CONTAINER
+SCARD_E_NO_KEY_CONTAINER:             <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_E_SERVER_TOO_BUSY
+SCARD_E_SERVER_TOO_BUSY:              <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_UNSUPPORTED_CARD
+SCARD_W_UNSUPPORTED_CARD:             <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_UNRESPONSIVE_CARD
+SCARD_W_UNRESPONSIVE_CARD:            <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_UNPOWERED_CARD
+SCARD_W_UNPOWERED_CARD:               <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_RESET_CARD
+SCARD_W_RESET_CARD:                   <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_REMOVED_CARD
+SCARD_W_REMOVED_CARD:                 <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_SECURITY_VIOLATION
+SCARD_W_SECURITY_VIOLATION:           <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_WRONG_CHV
+SCARD_W_WRONG_CHV:                    <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_CHV_BLOCKED
+SCARD_W_CHV_BLOCKED:                  <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_EOF
+SCARD_W_EOF:                          <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_CANCELLED_BY_USER
+SCARD_W_CANCELLED_BY_USER:            <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li><li class="listitem">
-SCARD_W_CARD_NOT_AUTHENTICATED
+SCARD_W_CARD_NOT_AUTHENTICATED:       <span class="strong"><strong> <span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
 </li></ul></div></div><div class="section" title="5. SCard APIs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_scard_apis"></a>5. SCard APIs</h2></div></div></div><p>SCard APIs implement one-to-one mapping of function specified by PCSCLite.
 This section only details how the mapping is done. For functional specification
 please visit <a class="ulink" href="http://pcsclite.alioth.debian.org/api/group__API.html" target="_top">http://pcsclite.alioth.debian.org/api/group__API.html</a></p><p>All javascript function defined in SCarsAPI take only one associative array argument
 and returns an error code. Any array attribute that is not specified by the mapping
 is simply ignored and leave untouched.</p><p>The SCard APIs is retrieved with through the bridge:</p><pre class="screen">    var SCard     = bridge.getSCardAPI();</pre><div class="section" title="5.1. EstablishContext"><div class="titlepage"><div><div><h3 class="title"><a id="_establishcontext"></a>5.1. EstablishContext</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardEstablishContext (DWORD dwScope,
                                        LPCVOID pvReserved1, LPCVOID pvReserved2,
-                                       LPSCARDCONTEXT phContext)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.EstablishContext( {
-        dwScope: {number},
-        hContext: {number}
-    }</pre></div><div class="section" title="5.2. ReleaseContext"><div class="titlepage"><div><div><h3 class="title"><a id="_releasecontext"></a>5.2. ReleaseContext</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardReleaseContext (SCARDCONTEXT hContext)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.ReleaseContext({
-        hContext: {number}
+                                       LPSCARDCONTEXT phContext)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.EstablishContext( {
+        dwScope:  <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        hContext: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+    }</pre></div><div class="section" title="5.2. ReleaseContext"><div class="titlepage"><div><div><h3 class="title"><a id="_releasecontext"></a>5.2. ReleaseContext</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardReleaseContext (SCARDCONTEXT hContext)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.ReleaseContext({
+        hContext: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
     })</pre></div><div class="section" title="5.3. Connect"><div class="titlepage"><div><div><h3 class="title"><a id="_connect"></a>5.3. Connect</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardConnect (SCARDCONTEXT hContext,
                               LPCSTR szReader, DWORD dwShareMode, DWORD dwPreferredProtocols,
-                              LPSCARDHANDLE phCard, LPDWORD pdwActiveProtocol)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.Connect({
-        hContext:             {number},
-        strReader:            {string},
-        dwShareMode:          {number},
-        dwPreferredProtocols: {number},
-        hCard:                {number},
-        dwActiveProtocol:     {number}
-    })</pre></div><div class="section" title="5.4. Disconnect"><div class="titlepage"><div><div><h3 class="title"><a id="_disconnect"></a>5.4. Disconnect</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardDisconnect (SCARDHANDLE hCard, DWORD dwDisposition)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.Disconnect({
-        hCard:         {number},
-        dwDisposition: {number}
+                              LPSCARDHANDLE phCard, LPDWORD pdwActiveProtocol)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.Connect({
+        hContext:             <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        strReader:            <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span> ,
+        dwShareMode:          <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        dwPreferredProtocols: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        hCard:                <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        dwActiveProtocol:     <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+    })</pre></div><div class="section" title="5.4. Disconnect"><div class="titlepage"><div><div><h3 class="title"><a id="_disconnect"></a>5.4. Disconnect</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardDisconnect (SCARDHANDLE hCard, DWORD dwDisposition)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.Disconnect({
+        hCard:         <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        dwDisposition: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
     })</pre></div><div class="section" title="5.5. Transmit"><div class="titlepage"><div><div><h3 class="title"><a id="_transmit"></a>5.5. Transmit</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardTransmit (SCARDHANDLE hCard,
                                const SCARD_IO_REQUEST *pioSendPci, LPCBYTE pbSendBuffer, DWORD cbSendLength,
-                               SCARD_IO_REQUEST *pioRecvPci, LPBYTE pbRecvBuffer, LPDWORD pcbRecvLength)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.Transmit({
-        hCard:       {number},
-        ioSendPci:   {number},
-        bSendBuffer: {hexstring},
-        ioRecvPci:   {number},
-        bRecvBuffer: {hexstring}
+                               SCARD_IO_REQUEST *pioRecvPci, LPBYTE pbRecvBuffer, LPDWORD pcbRecvLength)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.Transmit({
+        hCard:       <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        ioSendPci:   <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        bSendBuffer: <span class="strong"><strong><span class="emphasis"><em><code class="literal">hexstring</code></em></span></strong></span> ,
+        ioRecvPci:   <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        bRecvBuffer: <span class="strong"><strong><span class="emphasis"><em><code class="literal">hexstring</code></em></span></strong></span>
     })</pre></div><div class="section" title="5.6. Status"><div class="titlepage"><div><div><h3 class="title"><a id="_status"></a>5.6. Status</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardStatus (SCARDHANDLE hCard, LPSTR mszReaderName, LPDWORD pcchReaderLen,
                              LPDWORD pdwState, LPDWORD pdwProtocol,
-                             LPBYTE pbAtr, LPDWORD pcbAtrLen)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.Status({
-        hCard:         {number},
-        strReaderName: {string},
-        dwState:       {number},
-        dwProtocol:    {number},
-        bATR:          {hexstring}
-    })</pre></div><div class="section" title="5.7. IsValidContext"><div class="titlepage"><div><div><h3 class="title"><a id="_isvalidcontext"></a>5.7. IsValidContext</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardIsValidContext (SCARDCONTEXT hContext)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.IsValidContext({
-        hcontext: {number}
-    })</pre></div><div class="section" title="5.8. BeginTransaction"><div class="titlepage"><div><div><h3 class="title"><a id="_begintransaction"></a>5.8. BeginTransaction</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardBeginTransaction (SCARDHANDLE hCard)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.BeginTransaction({
-        hCard: {number}
-    })</pre></div><div class="section" title="5.9. EndTransaction"><div class="titlepage"><div><div><h3 class="title"><a id="_endtransaction"></a>5.9. EndTransaction</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardEndTransaction (SCARDHANDLE hCard, DWORD dwDisposition)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.EndTransaction({
-        hCard:         {number},
-        dwDisposition: {number}
+                             LPBYTE pbAtr, LPDWORD pcbAtrLen)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.Status({
+        hCard:         <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        strReaderName: <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span> ,
+        dwState:       <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        dwProtocol:    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        bATR:          <span class="strong"><strong><span class="emphasis"><em><code class="literal">hexstring</code></em></span></strong></span>
+    })</pre></div><div class="section" title="5.7. IsValidContext"><div class="titlepage"><div><div><h3 class="title"><a id="_isvalidcontext"></a>5.7. IsValidContext</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardIsValidContext (SCARDCONTEXT hContext)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.IsValidContext({
+        hcontext: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+    })</pre></div><div class="section" title="5.8. BeginTransaction"><div class="titlepage"><div><div><h3 class="title"><a id="_begintransaction"></a>5.8. BeginTransaction</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardBeginTransaction (SCARDHANDLE hCard)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.BeginTransaction({
+        hCard: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+    })</pre></div><div class="section" title="5.9. EndTransaction"><div class="titlepage"><div><div><h3 class="title"><a id="_endtransaction"></a>5.9. EndTransaction</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardEndTransaction (SCARDHANDLE hCard, DWORD dwDisposition)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.EndTransaction({
+        hCard:         <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        dwDisposition: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
     })</pre></div><div class="section" title="5.10. ListReaders"><div class="titlepage"><div><div><h3 class="title"><a id="_listreaders"></a>5.10. ListReaders</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardListReaders (SCARDCONTEXT hContext, LPCSTR mszGroups,
-                                  LPSTR mszReaders, LPDWORD pcchReaders)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.ListReaders({
-        hContext:   {number},
-        strGroups:  {string},
-        strReaders: {string}[]
-    })</pre></div><div class="section" title="5.11. Cancel"><div class="titlepage"><div><div><h3 class="title"><a id="_cancel"></a>5.11. Cancel</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardCancel (SCARDCONTEXT hContext)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.Cancel({
-        hcontext: {number}
+                                  LPSTR mszReaders, LPDWORD pcchReaders)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.ListReaders({
+        hContext:   <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        strGroups:  <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span> ,
+        strReaders: <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span> []
+    })</pre></div><div class="section" title="5.11. Cancel"><div class="titlepage"><div><div><h3 class="title"><a id="_cancel"></a>5.11. Cancel</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardCancel (SCARDCONTEXT hContext)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.Cancel({
+        hcontext: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
     })</pre></div><div class="section" title="5.12. GetStatusChange"><div class="titlepage"><div><div><h3 class="title"><a id="_getstatuschange"></a>5.12. GetStatusChange</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardGetStatusChange (SCARDCONTEXT hContext, DWORD dwTimeout,
-                                      SCARD_READERSTATE *rgReaderStates, DWORD cReaders)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.GetStatusChange({
-        hcontext:      {number},
-        dwTimeout:     {number},
-        readerStates:  readerState[]
+                                      SCARD_READERSTATE *rgReaderStates, DWORD cReaders)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.GetStatusChange({
+        hcontext:      <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        dwTimeout:     <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        readerStates:  <span class="strong"><strong><span class="emphasis"><em><code class="literal">readerState[]</code></em></span></strong></span>
     })
 
     readerState {
-        strReader:      {sring},
-        dwCurrentState: {number},
-        dwEventState:   {number},
-        bAtr:           {hexstring}
+        strReader:      <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span> ,
+        dwCurrentState: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        dwEventState:   <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        bAtr:           <span class="strong"><strong><span class="emphasis"><em><code class="literal">hexstring</code></em></span></strong></span>
    }</pre></div><div class="section" title="5.13. Control"><div class="titlepage"><div><div><h3 class="title"><a id="_control"></a>5.13. Control</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardControl (SCARDHANDLE hCard, DWORD dwControlCode,
                               LPCVOID pbSendBuffer, DWORD cbSendLength,
                               LPVOID pbRecvBuffer, DWORD cbRecvLength,
-                              LPDWORD lpBytesReturned)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.Control({
-        hCard:         {number},
-        dwControlCode: {number},
-        bSendBuffer:   {hexstring},
-        bRecvBuffer:   {hexstring}
+                              LPDWORD lpBytesReturned)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.Control({
+        hCard:         <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        dwControlCode: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        bSendBuffer:   <span class="strong"><strong><span class="emphasis"><em><code class="literal">hexstring</code></em></span></strong></span> ,
+        bRecvBuffer:   <span class="strong"><strong><span class="emphasis"><em><code class="literal">hexstring</code></em></span></strong></span>
     })</pre></div><div class="section" title="5.14. GetAttrib"><div class="titlepage"><div><div><h3 class="title"><a id="_getattrib"></a>5.14. GetAttrib</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardGetAttrib (SCARDHANDLE hCard, DWORD dwAttrId,
-                                LPBYTE pbAttr, LPDWORD pcbAttrLen)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.GetAttrib({
-        hCard:    {number},
-        dwAttrId: {number},
-        bAttr:    {hexstring}
+                                LPBYTE pbAttr, LPDWORD pcbAttrLen)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.GetAttrib({
+        hCard:    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        dwAttrId: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+        bAttr:    <span class="strong"><strong><span class="emphasis"><em><code class="literal">hexstring</code></em></span></strong></span>
     })</pre></div><div class="section" title="5.15. SetAttrib"><div class="titlepage"><div><div><h3 class="title"><a id="_setattrib"></a>5.15. SetAttrib</h3></div></div></div><p>C prototype</p><pre class="screen">    LONG        SCardSetAttrib (SCARDHANDLE hCard, DWORD dwAttrId,
-                                LPCBYTE pbAttr, DWORD cbAttrLen)</pre><p>JS prototype</p><pre class="screen">    {number} SCard.SetAttrib({
-        hCard: {number},
-        dwAttrId: {number},
-        bAttr: {hexstring}
+                                LPCBYTE pbAttr, DWORD cbAttrLen)</pre><p>JS prototype</p><pre class="screen">    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> SCard.SetAttrib({
+            hCard:    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+            dwAttrId: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> ,
+            bAttr:    <span class="strong"><strong><span class="emphasis"><em><code class="literal">hexstring</code></em></span></strong></span>
     })</pre></div></div><div class="section" title="6. TERMINAL/READER APIs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_terminal_reader_apis"></a>6. TERMINAL/READER APIs</h2></div></div></div><div class="section" title="6.1. PCSCTerminal APIs"><div class="titlepage"><div><div><h3 class="title"><a id="_pcscterminal_apis"></a>6.1. PCSCTerminal APIs</h3></div></div></div><p>The root PCSCTerminal object offers the following APIs:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
-{string[]}  listReaders()
+<span class="strong"><strong><span class="emphasis"><em><code class="literal">string[]</code></em></span></strong></span>  listReaders()
 </li><li class="listitem">
-PCSCReader  selectReader({string} prefix_reader_name)
+PCSCReader  selectReader(prefix_reader_name: <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span>)
 </li><li class="listitem">
-{string}    strError({number} errcode)
-</li></ul></div><div class="section" title="Mehtod listReaders"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_literal_listreaders_literal"></a>Mehtod <code class="literal">listReaders</code></h4></div></div></div><p>Returns array of currently found readers.</p></div><div class="section" title="Mehtod selectReader"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_literal_selectreader_literal"></a>Mehtod <code class="literal">selectReader</code></h4></div></div></div><p>The select method build and return a new PCSCReader object.
+<span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span>  strError(errcode: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span> )
+</li></ul></div><div class="section" title="Mehtod listReaders"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_emphasis_listreaders_emphasis"></a>Mehtod <span class="emphasis"><em>listReaders</em></span></h4></div></div></div><p>Returns array of currently found readers.</p></div><div class="section" title="Mehtod selectReader"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_emphasis_selectreader_emphasis"></a>Mehtod <span class="emphasis"><em>selectReader</em></span></h4></div></div></div><p>The select method build and return a new PCSCReader object.
 The select method does not try to connect to reader nor even check its existence.</p><p>The provided prefix reader name will used later, when trying to power up the reader.
-At this moment the first reader available and starting with this prefix will be selected.</p></div><div class="section" title="Property version"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_version_literal"></a>Property <code class="literal">version</code></h4></div></div></div><p>The version of this plugin</p></div></div><div class="section" title="6.2. PCSCReader APIs"><div class="titlepage"><div><div><h3 class="title"><a id="_pcscreader_apis"></a>6.2. PCSCReader APIs</h3></div></div></div><p>Each  PCSCReader object offers the following APIs:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
-{string} powerUp()
+At this moment the first reader available and starting with this prefix will be selected.</p></div><div class="section" title="Property version"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_version_emphasis"></a>Property <span class="emphasis"><em>version</em></span></h4></div></div></div><p>The version of this plugin</p></div></div><div class="section" title="6.2. PCSCReader APIs"><div class="titlepage"><div><div><h3 class="title"><a id="_pcscreader_apis"></a>6.2. PCSCReader APIs</h3></div></div></div><p>Each  PCSCReader object offers the following APIs:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+<span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span> powerUp()
 </li><li class="listitem">
 void powerDown()
 </li><li class="listitem">
-{string} transmit({string} APDU)
+<span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span> transmit(APDU: <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span>)
 </li><li class="listitem">
-{string} exchangeAPDU({string} APDU, {bool} extended)
-</li></ul></div><p>It also offers the following ReadWrite properties:
- - {bool}   autoReissue
- - {bool}   autoGetResponse
- - {bool}   autoChaining
- - {number} scardMode
- - {bool}   preferredProtocols
- - {bool}   extendedLengthSupported</p><p>and also offers the following ReadOnly properties:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
-atr
+<span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span> exchangeAPDU( APDU: <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span>, extended: <span class="strong"><strong><span class="emphasis"><em><code class="literal">bool</code></em></span></strong></span>)
+</li></ul></div><p>It also offers the following ReadWrite properties:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+autoReissue:             <span class="strong"><strong><span class="emphasis"><em><code class="literal">bool</code></em></span></strong></span>
 </li><li class="listitem">
-protocol
+autoGetResponse:         <span class="strong"><strong><span class="emphasis"><em><code class="literal">bool</code></em></span></strong></span>
 </li><li class="listitem">
-error
+autoChaining:            <span class="strong"><strong><span class="emphasis"><em><code class="literal">bool</code></em></span></strong></span>
 </li><li class="listitem">
-SW
-</li></ul></div><p>Finally the following constant (ReadOnly) properties is also
- - SCARD_SHARE_SHARED
- - SCARD_SHARE_EXCLUSIVE
- - SCARD_SHARE_DIRECT
- - SCARD_PROTOCOL_T0
- - SCARD_PROTOCOL_T1
- - SCARD_PROTOCOL_RAW</p><div class="section" title="Mehtod powerUp"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_literal_powerup_literal"></a>Mehtod <code class="literal">powerUp</code></h4></div></div></div><p>If the reader is already powered, the reader is first powered down. The SCardDisconnect function is called.</p><p>Then an existing reader with a name starting with the given prefix to the selectReader method is looked up. If found the reader is powerup (using SCardConnect) according the current value of <span class="emphasis"><em>scardMode</em></span>, expecting a card is present, and the ATR is returned.</p><p>If card is succefully powered, the <span class="emphasis"><em>ATR</em></span> and <span class="emphasis"><em>protocol</em></span>  properties are updated and the ATR is returned.</p><p>If something goes wrong, the empty string is returned and the <span class="emphasis"><em>error</em></span> contains the last error code.</p></div><div class="section" title="Mehtod powerDown"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_literal_powerdown_literal"></a>Mehtod <code class="literal">powerDown</code></h4></div></div></div><p>The reader is powered down, using SCardDisconnect function.</p><p>This method does not return anything, but <span class="emphasis"><em>error</em></span> should be checked.</p></div><div class="section" title="Mehtod transmit"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_literal_transmit_literal"></a>Mehtod <code class="literal">transmit</code></h4></div></div></div><p>Send the given APDU (encoding as hexstring) to the card and return the card response as hexstring.</p><p>This method send the APDU exactly as provided and does not try to handle any protocol specific features.
-Especially, the method does not automatique handle status word ‘61xx’ and ‘6Cxx’ and does not atomically reissue any command nor send any GET_REPONSE</p></div><div class="section" title="Mehtod exchangeAPDU"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_literal_exchangeapdu_literal"></a>Mehtod <code class="literal">exchangeAPDU</code></h4></div></div></div><p>Send the given APDU (encoding as hexstring) to the card and return the card response as hexstring.</p><p>This method tries to be smart and :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+scardMode:               <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+</li><li class="listitem">
+preferredProtocols:      <span class="strong"><strong><span class="emphasis"><em><code class="literal">bool</code></em></span></strong></span>
+</li><li class="listitem">
+extendedLengthSupported: <span class="strong"><strong><span class="emphasis"><em><code class="literal">bool</code></em></span></strong></span>
+</li></ul></div><p>and also offers the following ReadOnly properties:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+atr:       <span class="strong"><strong><span class="emphasis"><em><code class="literal">string</code></em></span></strong></span>
+</li><li class="listitem">
+protocol:  <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+</li><li class="listitem">
+error:     <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+</li></ul></div><p>Finally the following constant (ReadOnly) properties is also</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+SCARD_SHARE_SHARED:    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+</li><li class="listitem">
+SCARD_SHARE_EXCLUSIVE: <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+</li><li class="listitem">
+SCARD_SHARE_DIRECT:    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+</li><li class="listitem">
+SCARD_PROTOCOL_T0:     <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+</li><li class="listitem">
+SCARD_PROTOCOL_T1:     <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+</li><li class="listitem">
+SCARD_PROTOCOL_RAW:    <span class="strong"><strong><span class="emphasis"><em><code class="literal">number</code></em></span></strong></span>
+</li></ul></div><div class="section" title="Mehtod powerUp"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_emphasis_powerup_emphasis"></a>Mehtod <span class="emphasis"><em>powerUp</em></span></h4></div></div></div><p>If the reader is already powered, the reader is first powered down. The SCardDisconnect function is called.</p><p>Then an existing reader with a name starting with the given prefix to the selectReader method is looked up. If found the reader is powerup (using SCardConnect) according the current value of <span class="emphasis"><em>scardMode</em></span>, expecting a card is present, and the ATR is returned.</p><p>If card is succefully powered, the <span class="emphasis"><em>ATR</em></span> and <span class="emphasis"><em>protocol</em></span>  properties are updated and the ATR is returned.</p><p>If something goes wrong, the empty string is returned and the <span class="emphasis"><em>error</em></span> contains the last error code.</p></div><div class="section" title="Mehtod powerDown"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_emphasis_powerdown_emphasis"></a>Mehtod <span class="emphasis"><em>powerDown</em></span></h4></div></div></div><p>The reader is powered down, using SCardDisconnect function.</p><p>This method does not return anything, but <span class="emphasis"><em>error</em></span> should be checked.</p></div><div class="section" title="Mehtod transmit"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_emphasis_transmit_emphasis"></a>Mehtod <span class="emphasis"><em>transmit</em></span></h4></div></div></div><p>Send the given APDU (encoding as hexstring) to the card and return the card response as hexstring.</p><p>This method send the APDU exactly as provided and does not try to handle any protocol specific features.
+Especially, the method does not automatique handle status word ‘61xx’ and ‘6Cxx’ and does not atomically reissue any command nor send any GET_REPONSE</p></div><div class="section" title="Mehtod exchangeAPDU"><div class="titlepage"><div><div><h4 class="title"><a id="_mehtod_emphasis_exchangeapdu_emphasis"></a>Mehtod <span class="emphasis"><em>exchangeAPDU</em></span></h4></div></div></div><p>Send the given APDU (encoding as hexstring) to the card and return the card response as hexstring.</p><p>This method tries to be smart and :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
 handle automatically reissue the command in case of ‘6Cxx’ status word, if the <span class="emphasis"><em>autoReissue</em></span>
     property is set to true
 </li><li class="listitem">
@@ -443,21 +454,21 @@ emit atomically a GET_REPONSE in case of ‘61xx’ status word, if the <span cl
 if the APDU is an extended one, and extended length is not supported
     (<span class="emphasis"><em>extendedLengthSupported</em></span> set to false), this method try to automatically handle the T0
    chaining, if <span class="emphasis"><em>autoChaining</em></span> is set to true
-</li></ul></div></div><div class="section" title="Property atr"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_atr_literal"></a>Property <code class="literal">atr</code></h4></div></div></div><p>Contains ATR of last powerup, if card is still powered.</p><p>Empty string if there is no powered card.</p></div><div class="section" title="Property protocol"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_protocol_literal"></a>Property <code class="literal">protocol</code></h4></div></div></div><p>Contains currently used protocol:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+</li></ul></div></div><div class="section" title="Property atr"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_atr_emphasis"></a>Property <span class="emphasis"><em>atr</em></span></h4></div></div></div><p>Contains ATR of last powerup, if card is still powered.</p><p>Empty string if there is no powered card.</p></div><div class="section" title="Property protocol"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_protocol_emphasis"></a>Property <span class="emphasis"><em>protocol</em></span></h4></div></div></div><p>Contains currently used protocol:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
 1 for T1
 </li><li class="listitem">
 0 for T0
-</li></ul></div></div><div class="section" title="Property error"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_error_literal"></a>Property <code class="literal">error</code></h4></div></div></div><p>Contains last error code. A string description can be retrieved from <span class="emphasis"><em>PCSCBridge.strError</em></span> function.</p></div><div class="section" title="Property extendedLengthSupported"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_extendedlengthsupported_literal"></a>Property <code class="literal">extendedLengthSupported</code></h4></div></div></div><p>Behavior condition for exchangeAPDU method.
-Tell if the application on the powered card support or not the extended APDU.</p></div><div class="section" title="Property autoReissue"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_autoreissue_literal"></a>Property <code class="literal">autoReissue</code></h4></div></div></div><p>Behavior condition for exchangeAPDU method.</p></div><div class="section" title="Property autoGetResponse"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_autogetresponse_literal"></a>Property <code class="literal">autoGetResponse</code></h4></div></div></div><p>Behavior condition for exchangeAPDU method.</p></div><div class="section" title="Property autoChaining"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_autochaining_literal"></a>Property <code class="literal">autoChaining</code></h4></div></div></div><p>Behavior condition for exchangeAPDU method.</p></div><div class="section" title="Property scardMode"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_scardmode_literal"></a>Property <code class="literal">scardMode</code></h4></div></div></div><p>Used by SCardConnect during <span class="emphasis"><em>powerUp</em></span> call. Possible values are:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+</li></ul></div></div><div class="section" title="Property error"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_error_emphasis"></a>Property <span class="emphasis"><em>error</em></span></h4></div></div></div><p>Contains last error code. A string description can be retrieved from <span class="emphasis"><em>PCSCBridge.strError</em></span> function.</p></div><div class="section" title="Property extendedLengthSupported"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_extendedlengthsupported_emphasis"></a>Property <span class="emphasis"><em>extendedLengthSupported</em></span></h4></div></div></div><p>Behavior condition for exchangeAPDU method.
+Tell if the application on the powered card support or not the extended APDU.</p></div><div class="section" title="Property autoReissue"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_autoreissue_emphasis"></a>Property <span class="emphasis"><em>autoReissue</em></span></h4></div></div></div><p>Behavior condition for exchangeAPDU method.</p></div><div class="section" title="Property autoGetResponse"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_autogetresponse_emphasis"></a>Property <span class="emphasis"><em>autoGetResponse</em></span></h4></div></div></div><p>Behavior condition for exchangeAPDU method.</p></div><div class="section" title="Property autoChaining"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_autochaining_emphasis"></a>Property <span class="emphasis"><em>autoChaining</em></span></h4></div></div></div><p>Behavior condition for exchangeAPDU method.</p></div><div class="section" title="Property scardMode"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_scardmode_emphasis"></a>Property <span class="emphasis"><em>scardMode</em></span></h4></div></div></div><p>Used by SCardConnect during <span class="emphasis"><em>powerUp</em></span> call. Possible values are:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
 PCSCBridge.SCARD_SHARE_SHARED
 </li><li class="listitem">
 PCSCBridge.SCARD_SHARE_EXCLUSIVE
 </li><li class="listitem">
 PCSCBridge.SCARD_SHARE_DIRECT
-</li></ul></div></div><div class="section" title="Property preferredProtocols"><div class="titlepage"><div><div><h4 class="title"><a id="_property_literal_preferredprotocols_literal"></a>Property <code class="literal">preferredProtocols</code></h4></div></div></div><p>Used by SCardConnect during <span class="emphasis"><em>powerUp</em></span> call. Possible values are:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+</li></ul></div></div><div class="section" title="Property preferredProtocols"><div class="titlepage"><div><div><h4 class="title"><a id="_property_emphasis_preferredprotocols_emphasis"></a>Property <span class="emphasis"><em>preferredProtocols</em></span></h4></div></div></div><p>Used by SCardConnect during <span class="emphasis"><em>powerUp</em></span> call. Possible values are:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
 PCSCBridge.SCARD_PROTOCOL_T0
 </li><li class="listitem">
 PCSCBridge.SCARD_PROTOCOL_T1
 </li><li class="listitem">
 PCSCBridge.SCARD_PROTOCOL_RAW
-</li></ul></div></div></div><div class="section" title="6.3. Example"><div class="titlepage"><div><div><h3 class="title"><a id="_example"></a>6.3. Example</h3></div></div></div><p>See the projects/PCSCBridge/test/test.html.</p></div></div></div></body></html>
+</li></ul></div></div></div></div><div class="section" title="7. Example"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_example"></a>7. Example</h2></div></div></div><p>See the projects PCSCBridge/test/test.html.</p></div></div></body></html>
