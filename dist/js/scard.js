@@ -20,7 +20,7 @@ limitations under the License.
 /** scardjs domain */
 var scardjs = {
         /* ============================== VERSION ============================== */
-        VERSION: "0.3",
+        VERSION: "0.2",
 
         /* ============================== UTILS ============================== */
         
