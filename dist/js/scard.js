@@ -429,19 +429,20 @@ var scardjs = {
                                         if (lc <232) {
                                                 p3 =lc;
                                                 cla &= ~0x10;
-                                                lc -= 232;
+                                                lc = 0;
                                         } else {
                                                 p3=232;
-                                                lc = 0;
+                                                lc -= 232;
                                         }
                                         pbSendBuffer = 
                                                 scardjs.hexl1(cla) +
-                                                scardjs.hexl1(p1) +
-                                                scardjs.hexl1(p2) +
-                                                scardjs.hexl1(p3) +                                        
+                                                scardjs.hexl1(ins) +
+                                                scardjs.hexl1(p1)  +
+                                                scardjs.hexl1(p2)  +
+                                                scardjs.hexl1(p3)  +                                        
                                                 data.substring(0,p3*2);
-                                        data=substring(p3*2);
-                                        pbRecvBuffer = this.transmit(data);
+                                        data=data.substring(p3*2);
+                                        pbRecvBuffer = this.transmit(pbSendBuffer);
                                         if (!pbRecvBuffer) {
                                                 return undefined;
                                         }
@@ -457,15 +458,15 @@ var scardjs = {
                         }
                         //else just send and see....
                         else {
-                                if (p3>255) {
+                                if ((p3>255)||extendedAPDU) {
                                         p3 = 0; //assume extended APDU
                                 }
                                 pbSendBuffer = 
                                         scardjs.hexl1(cla) +
                                         scardjs.hexl1(ins) +
-                                        scardjs.hexl1(p1) +
-                                        scardjs.hexl1(p2) +
-                                        scardjs.hexl1(p3) +                                        
+                                        scardjs.hexl1(p1)  +
+                                        scardjs.hexl1(p2)  +
+                                        scardjs.hexl1(p3)  +                                        
                                         data;
                                 pbRecvBuffer = this.transmit(pbSendBuffer);
                                 if (!pbRecvBuffer) {
@@ -476,12 +477,12 @@ var scardjs = {
                         }
                         
                         //handle 6Cxx, if autoReissue set
-                        if ( ((sw & 0xFF00) == 0x6C00) && autoReissue) {
+                        if ( ((sw & 0xFF00) == 0x6C00) && this.config.autoReissue) {
                                 pbSendBuffer =
                                         scardjs.hexl1(cla) +
                                         scardjs.hexl1(ins) +
-                                        scardjs.hexl1(p1) +
-                                        scardjs.hexl1(p2) +
+                                        scardjs.hexl1(p1)  +
+                                        scardjs.hexl1(p2)  +
                                         scardjs.hexl1(sw&0xFF) +                                        
                                         data;
                                 pbRecvBuffer = this.transmit(pbSendBuffer);
@@ -493,7 +494,7 @@ var scardjs = {
                         }
                         
                         //handle 61xx, if autoGetResponse set
-                        if ( ((sw &0xFF00) == 0x6100) && autoGetResponse) {
+                        if ( ((sw &0xFF00) == 0x6100) && this.config.autoGetResponse) {
                                 var rdata = "";
                                 while ( (sw &0xFF00) == 0x6100) {
                                         //next offset for data to receive, 61xx removed
@@ -507,11 +508,10 @@ var scardjs = {
                                         if (!pbRecvBuffer) {
                                                 return undefined;
                                         }
-                                        dwRecvLength += offset;
-                                        offset = dwRecvLength-2;
+                                        sw = parseInt(pbRecvBuffer.substring(pbRecvBuffer.length-4), 16); 
+                                        rdata = rdata+pbRecvBuffer.substring(0, pbRecvBuffer.length-4); 
                                 }  
-                                sw = parseInt(pbRecvBuffer.substring(pbRecvBuffer.length-4), 16); 
-                                rdata = rdata+pbRecvBuffer.substring(0, pbRecvBuffer.length-4); 
+                                
 
                         }
 
