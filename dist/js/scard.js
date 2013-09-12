@@ -176,8 +176,8 @@ var scardjs = {
                 }
         
                 // PRIVATE
-                this.bridge      = getPCSCBridge();
-                this.scard       = this.bridge .getSCardAPI();
+                this.bridge      = document.getElementById('pcscbridge');
+                this.scard       = this.bridge.getSCardAPI();
                 this.err         = 0;
                 this.hContext    = -1;    
                 
