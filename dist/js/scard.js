@@ -20,9 +20,12 @@ limitations under the License.
 /** scardjs domain */
 var scardjs = {
         /* ============================== VERSION ============================== */
-        VERSION: "0.2",
+        VERSION: "0.2.1",
 
-        /* ============================== UTILS ============================== */
+       /* ============================== Bridge ============================== */
+        bridge: undefined,
+
+         /* ============================== UTILS ============================== */
         
         /* 
          * Convert a number to hexstring
@@ -65,19 +68,22 @@ var scardjs = {
         
         /** 
          * Retrieve  primary webpcsc plugin interface.
-         * Contrains root API and SCARD constants
+         * Contains root API and SCARD constants
          *
          * @return bridge root entry point or undefined 
          */
         getPCSCBridge: function () {
-                return document.getElementById('pcscbridge');
+                if (!scardjs.bridge) {
+                        scardjs.bridge = document.getElementById('pcscbridge');
+                }
+                return scardjs.bridge;
         },
         
         /**
          * Retrieve the SCARD API Object
          */
         getSCardAPI: function () {
-                var bridge     = getPCSCBridge()
+                var bridge     = scardjs.getPCSCBridge();
                 var scard = undefined;
                 if (bridge) {
                         scard     = bridge.getSCardAPI();
@@ -86,16 +92,25 @@ var scardjs = {
         },
         
         /**
+         * Retrieve the SCARD constant
+         */
+        getSCardConst: function(cst) {
+                var bridge     = scardjs.getPCSCBridge()
+                return bridge[cst];
+                
+        },
+
+        /**
          * Build a new SCARD conntext 
          * @constructor
          */
         SCardContext: function () {
                 
                 /**
-         * Establish new PCSC context
-         *  @params {number} scope one of 
-         * return hContext
-         */
+                 * Establish new PCSC context
+                 *  @params {number} scope one of 
+                 * return hContext
+                 */
                 function establish(scope) {      
                         if (!scope) {
                                 scope = 2;
@@ -127,7 +142,8 @@ var scardjs = {
                                 reader = readers[0];
                         } else {
                                 readers.every(function (r) {
-                                        if (r.match(reader)) {
+                                        if ((r.indexOf(reader) == 0) ||
+                                            r.match(reader)) {
                                                 fullname = r;
                                                 return false;
                                         }
@@ -176,7 +192,7 @@ var scardjs = {
                 }
         
                 // PRIVATE
-                this.bridge      = document.getElementById('pcscbridge');
+                this.bridge      = scardjs.getPCSCBridge();
                 this.scard       = this.bridge.getSCardAPI();
                 this.err         = 0;
                 this.hContext    = -1;    
@@ -233,7 +249,7 @@ var scardjs = {
                  * @return array with [{hexstring} atr, {number} reader full-name, {number}  state]
                  */
                 function status() {
-                        if (!this.hCard>0) {
+                        if (!(this.hCard>0)) {
                                 return undefined;
                         }
                         this.params = {
@@ -259,7 +275,7 @@ var scardjs = {
                  * @return rapdu as {hexstring}, including status word SW.
                  */
                 function transmit(apdu){
-                        if (!this.hCard>0) {
+                        if (!(this.hCard>0)) {
                                 return undefined;
                         }
                         this.params = {
@@ -277,7 +293,6 @@ var scardjs = {
                         }
                         return this.params.bRecvBuffer;
                 };
-
                 /**
                  * Disconnect from reader.
                  * Underlying PCSCAPI: SCardDisconect.
@@ -285,11 +300,11 @@ var scardjs = {
                  * @return true if success, false else.
                  */
                 function disconnect(disposition){                
-                        if (!this.hCard>0) {
+                        if (!(this.hCard>0)) {
                                 return false;
                         }
                         if (!disposition) {
-                                disposition = this.scardCtx.scardCtx.bridge.SCARD_LEAVE_CARD;
+                                disposition = this.scardCtx.bridge.SCARD_LEAVE_CARD;
                         }
                         this.params = {
                                 func:          arguments.callee.name,
@@ -355,14 +370,14 @@ var scardjs = {
                  * Powerdown the card.
                  */ 
                 function powerDown() {
-                        return this.disconnect(this.scardCtx.scardCtx.bridge.SCARD_UNPOWER_CARD);
+                        return this.disconnect(this.scardCtx.bridge.SCARD_UNPOWER_CARD);
                 };
 
                 /**
                  * Reset the card.
                  */ 
                 function reset() {
-                        return this.disconnect(this.scardCtx.scardCtx.bridge.SCARD_RESET_CARD);
+                        return this.disconnect(this.scardCtx.bridge.SCARD_RESET_CARD);
                 };
 
 
@@ -389,7 +404,7 @@ var scardjs = {
                  *
                  */
                 function exchange(cla, ins, p1, p2, p3, data, extendedAPDU) {
-                        if (!this.hCard>0) {
+                        if (!(this.hCard>0)) {
                                 return undefined;
                         }
 
@@ -420,7 +435,7 @@ var scardjs = {
                                 data = data.substring(0,data.length-4);
                                 chaining = true;
                         }
-                        else if (!extendedAPDU && (p3 > 255)) {
+                        else if ((!extendedAPDU) && (p3 > 255)) {
                                 chaining = true;
                         }
                         if (chaining) {
