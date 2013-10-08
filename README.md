@@ -30,6 +30,9 @@ Note that this README.md will overide the one of firebreath if you git-clone in 
 
 #### Under Linux:
 
+     Before you start, please install libpcsclite libs to compile:
+     apt-get install libpcsclite1 libpcsclite-dev
+
      Copy $(FBPlugins)/ext/FindPCSCLite.cmake into /usr/share/cmake-2.8/Modules/ (or something like that)
      
      In $(FBPlugins)
