@@ -3,7 +3,7 @@ webpcsc-firebreath
 
 Browser plug-in interface to PCSC using FireBreath, exposing methods through JavaScript interfaces (for Linux, Windows, and oneday OS X)
 
-INPORTANT NOTE
+IMPORTANT NOTE
 --------------
 
 AS google announced the end of NAPI support and Firefox is going to do the same thing, webpcsc is 
