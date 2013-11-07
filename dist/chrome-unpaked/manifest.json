@@ -1,6 +1,6 @@
 {
     "name": "PCSCBridge",
-    "version": "@VER@",
+    "version": "0.2.99",
     "manifest_version": 2,
     "description":  "PCSC API bridge based on firebreath framework",
     "homepage_url": "https://github.com/ubinity/webpcsc-firebreath",

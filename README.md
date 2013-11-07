@@ -3,10 +3,31 @@ webpcsc-firebreath
 
 Browser plug-in interface to PCSC using FireBreath, exposing methods through JavaScript interfaces (for Linux, Windows, and oneday OS X)
 
+INPORTANT NOTE
+--------------
+
+AS google announced the end of NAPI support and Firefox is going to do the same thing, webpcsc is 
+under refactor to anticipate the failing  removal.
+the previous version is available under "0.2" branch.
+
+The master branch, targeting 0.3 version, is under active development with the following design in mind:
+
+  * only target chrome browser
+  * abstract the PCSC function in is stable user .js file (what has been started in v0.2)
+  * pcsc calls (or aka native) are moved in a chrome extension
+  * asynchronous call in user page thanks to usage of extension
+
+We try to keep the master branch in a functional state, but documentation maybe broken 
+and code sometime buggy. Do not hesitate to report and contribute.
+
+For now, the native back-end stay the same still relies on FireBreath, as this framework will certainly be
+upgraded too.
+
+
 How to use 
 -----------
 
-See dist/doc/PCSCBridge.html for documentation and projects/PCSCBridge/test/test.html for a short sample 
+See dist/doc/index.html for documentation and dist/tests/test.html for a short sample 
 
 
 How to build
@@ -23,12 +44,13 @@ How to build
 ### Long version:
 
   * Download FireBreath from http://www.firebreath.org/
-  * Let's say FBPlugins is the firebreath root 
+  * Let's say FBPlugins is the FireBreath root 
   * Git clone pcsc project, you should have:   $(FBPlugins)/projects/PCSCBridge/PCSCBridge.cpp
 
-Note that this README.md will overide the one of firebreath if you git-clone in place.
+Note that this README.md will override the one of FireBreath if you git-clone in place.
 
-#### Under Linux:
+
+#### Rebuild the native GNU/Linux plugin:
 
      Before you start, please install libpcsclite libs to compile:
      apt-get install pcscd libpcsclite1 libpcsclite-dev
@@ -42,11 +64,10 @@ Note that this README.md will overide the one of firebreath if you git-clone in 
      
      .so is here:
         $(FBPlugins)/build/bin/PCSCBridge/npPCSCBridge.so
-     Copy .so to ~/.mozilla/plugins
-    
+     Copy .so to  $(FBPlugins)/dist/lib
+     
 
-
-#### Under Windows
+#### Rebuild the native Windows plugin:
 
      Open  $(FBPlugins)/projects/PCSCBridge/projectDef.cmake
      
@@ -61,13 +82,28 @@ Note that this README.md will overide the one of firebreath if you git-clone in 
      
      dll is here
        $(FBPlugins)/build/bin/PCSCBridge/Debug/npPCSCBridge.dll
-     register it:
-       regserv32 npPCSCBridge.dll
+     Copy dll to  $(FBPlugins)/dist/lib
 
 
+#### Building browser extension
+
+Assuming you have built the GNU/linux and windows native libraries.
+
+   $(FBPlugins)/dist/
+      ./dist-pack.sh
+
+Extension are placed in 
+
+     $(FBPlugins)/dist/chrome
+     $(FBPlugins)/dist/firefox
+
+Unpacked extension, useful for debugging, are kept here:
+
+     $(FBPlugins)/dist/chrome-unpaked
+     $(FBPlugins)/dist/firefox-unpaked
 
 
-
+When loading chrome packed extension, tick the 'Allow access to file URLs' once loaded.
 
 License
 -------

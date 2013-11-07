@@ -1,0 +1,381 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>PCSC BRIDGE</title>
+    <script type="text/javascript" src="../js/q/q.min.js"></script>
+    <script type="text/javascript" src="../js/scard.js"></script>
+  </head>
+    
+  <script type="text/javascript">
+
+    function u32hexstr(u) {
+      if (typeof(u) != "number") {
+        return "WAT:"+typeof(u);
+      }
+      if (u < 0 ) {
+        u = 0xFFFFFFFF + u +1;
+      }
+      return  u.toString(16);
+    }
+
+    <!-- ============================= INIT ========================== -->
+    var scard;
+    var reader;
+    var sync = false;
+    var x;
+
+    <!-- ============================= SCard API ========================== -->
+ 
+    function reset(wat) {
+      switch (wat) {
+      case 0:
+        x.hContext.value  = "";
+      case 1:
+        x.rdr.value  = "";
+      case 2:
+        x.hCard.value     = "";
+      case 3:
+        x.bATR.value      = "";
+      case 4:
+        x.dwProtocol.value  = "";
+      case 5:
+        x.dwState.value     = "";
+      case 7:
+        //x.in.value        = "";
+        x.out.value       = "";
+      }
+    }
+
+    function webpcscInit() {    
+      x = document.forms["scard"];
+      scardjs.setLogger(function(msg) {
+         x.log.value += msg+"\n"; 
+       });
+
+       scardjs.init().done();
+       scard = new scardjs.SCardContext();
+       x.inited_status.value = scard?"OK":"ERROR";
+    } 
+
+
+    function setContext(h) {
+      x.hContext.value = "0x"+h.toString(16);  
+    }
+
+    function SCard_Establish() {
+       reset(0);
+       if (sync)  {
+         setContext( scard.establish());
+       } else {
+         scard.establish().then(setContext).done();
+       };
+     }
+
+    function setReaders(readers) {
+      var opts =  x.rlst.options;
+      opts.length = 0;
+      readers.forEach(function (r) {
+        opts[opts.length] = new Option(r,r,false,false);
+      });      
+    }
+
+    function SCard_ListReaders() {
+      if (sync) {
+        setReaders(scard.listReaders());
+      } else {
+        scard.listReaders().then(setReaders).done();
+      }
+    }
+
+    function setRelease(r) {
+      reset(0);
+      x.hContext.value = r;
+    }
+
+    function SCard_Release() {
+      if (sync) {
+        setRelease(scard.release());
+      } else {
+        scard.release().then(setRelease);
+      }
+    }
+
+    function setReader(rdr) {
+      if (rdr) {
+        x.rdr.value = rdr.reader;
+        reader = rdr; 
+      } else {
+        x.rdr.value = "undefined";
+      }
+    }
+
+    function SCard_GetReader() {
+      reset(1);
+      var r = x.rlst
+      var rname = r.options[r.selectedIndex].value;
+      if (sync) {
+        setReader(scard.getReader(rname));
+      } else {
+        scard.getReader(rname).then(setReader).done();
+      }
+    }
+
+    function setConnect(conn) {
+      var x = document.forms["scard"];
+      if (conn) {
+        x.hCard.value = "0x"+reader.hCard.toString(16);
+        x.dwProtocol.value = reader.dwProtocol;
+      } else {
+        x.hCard.value = -1;
+        x.dwProtocol.value = -1;
+      }    
+    }
+
+    function SCard_Connect() {
+      reset(2);
+      if (sync) {
+        setConnect(reader.Connect());
+      } else {
+        reader.connect().then(setConnect).done();
+      }
+    }
+ 
+    function setCardStatus(result) {
+      if (result) {
+        x.bATR.value        = result[0]; 
+        x.dwProtocol.value  = result[2];
+        x.dwState.value     = u32hexstr(result[3]);
+      } else {
+        x.bATR.value        = "err"
+        x.dwProtocol.value  = "err"
+        x.dwState.value     = "err";
+      }
+    }
+
+    function SCard_Status() {
+      reset(3);
+      if (sync) {
+        setCardStatus(reader.status()); 
+      } else {
+         reader.status().then(setCardStatus).done();
+      }
+    }
+
+    function setTransmit(resp) {
+      if (resp) {
+        x.out.value    = resp;
+      } else {
+        x.out.value    = "err"
+      }
+    }
+
+    function SCard_Transmit() {
+      reset(7);
+      if (sync) {
+        setTranmit(reader.transmit(x.in.value)); 
+      } else {
+         reader.transmit(x.in.value).then(setTransmit).done();
+      }
+    }
+
+    function SCard_Exchange() {
+      reset(7);
+      if (sync) {
+         setTranmit(reader.exchange(x.in.value, x.extended.checked)); 
+      } else {
+         reader.exchange(x.in.value, x.extended.checked).then(setTransmit).done();
+      }
+    }
+
+
+
+    function setStatusChange(resp) {
+       x.dwEventState.value  = u32hexstr(resp.eventState);
+       x.evtAtr.value        = resp.ATR;
+    }
+
+    function SCard_GetStatusChange() {
+      x.dwEventState.value  = "";
+      x.evtAtr.value ="";
+      if (sync) {
+         setStatusChange(reader.getStatusChange(parseInt(x.dwCurrentState.value,16), 
+                                                x.dwTimeout.value)); 
+      } else {
+         reader.getStatusChange(parseInt(x.dwCurrentState.value,16), 
+                                x.dwTimeout.value).then(setStatusChange).done();
+      }
+    }
+
+     function  gpgSel()  { document.forms["scard"].in.value="00A4040006D27600012401"; SCard_Exchange(); };
+     function  gpgData() { document.forms["scard"].in.value="00CA006E00";             SCard_Exchange(); };
+     function  gpgKey()  { document.forms["scard"].in.value="00478100000002A4000800"; SCard_Exchange(); };
+
+     function  clearLog() { x.log.value=""; };
+  </script>  
+  
+  <body onload="">
+
+    <center>
+      <h1>Plugin Test Page</h1>
+      <br/>
+      Copyright (c) 2013 UBINITY SAS 
+      <br/><br/>
+      Licensed under the Apache License, Version 2.0 (the "License");<br/>
+      you may not use this file except in compliance with the License. <br/>
+      You may obtain a copy of the License at
+      <br/><br/>
+      http://www.apache.org/licenses/LICENSE-2.0
+      <br/><br/>
+      Unless required by applicable law or agreed to in writing, <br/>
+      software distributed under the License is distributed on an "AS IS" BASIS, <br/>
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. <br/>
+      See the License for the specific language governing permissions and
+      limitations under the License.
+      <br/><br/>
+    </center>
+
+    <hr/><hr/>
+
+    <form name="scard" onsubmit="return false">
+      <h1>SCard APIs</h1>
+
+      <br/><hr width="70%" />
+
+      <h2>Init </h2>
+      <input type="submit" value="Init"  onclick="webpcscInit()">  <br/>
+      <input type="text" name="inited_status" value="Not Inited" size="20" readonly><br/></br>
+
+      <br/><hr width="70%" />
+
+      <h2> Common usages </h2>
+
+      <h3>Context: </h3>
+      <input type="submit" value="SCardEstablishContext"   onclick="SCard_Establish()">
+      <input type="submit" value="SCardRelease"            onclick="SCard_Release()"><br/>
+      <input type="submit" value="SCardListReaders"        onclick="SCard_ListReaders()">
+      <input type="submit" value="SCardGetReader"          onclick="SCard_GetReader()"><br/><br/>
+      <table>        
+        <tr><td> hcontext </td><td> <input type="text"   name="hContext"   size="80" readonly>  </td></tr>  
+        <tr><td> readers  </td><td> <select name="rlst"></select>                               </td></tr>
+      </table>
+      <br/>
+
+      <h3>Card: </h3>
+      <input type="submit" value="SCardConnect"            onclick="SCard_Connect()"><br/>
+      <input type="submit" value="SCardStatus"             onclick="SCard_Status()">
+      <input type="submit" value="SCardTransmit"           onclick="SCard_Transmit()">
+      <input type="submit" value="SCardExchange"           onclick="SCard_Exchange()"><br/>
+      <input type="submit" value="SCardDisconnect"         onclick="SCard_Disconnect()"><br/><br/>
+
+      <h3>Transaction: </h3>
+      <input type="submit" value="SCardBeginTransaction"   onclick="SCard_BeginTransaction()">
+      <input type="submit" value="SCardEndTransaction"     onclick="SCard_EndTransaction()">
+      <input type="submit" value="SCardCancel"             onclick="SCard_Cancel()"><br/><br/>
+
+      <table>      
+        <tr><td> reader   </td><td> <input type="text"   name="rdr"        size="80" readonly>  </td></tr>  
+        <tr><td> hCard    </td><td> <input type="text"   name="hCard"      size="80" readonly>  </td></tr>  
+        <tr><td> bATR     </td><td> <input type="text"   name="bATR"       size="80" readonly>  </td></tr>  
+        <tr><td> protocol </td><td> <input type="text"   name="dwProtocol" size="80" readonly>  </td></tr>  
+        <tr><td> state    </td><td> <input type="text"   name="dwState"    size="80" readonly>  </td></tr>  
+        <tr><td> in       </td><td> <input type="text"   name="in"         size="80" >    <input type="checkbox" name="extended" value="extended"> extended<br> </td></tr>  
+        <tr><td> out      </td><td> <input type="text"   name="out"        size="80" readonly>  </td></tr>  
+      </table>     
+
+      <h3>Some OpenPGP Card command:</h3>
+      <input type="submit" value="Select"         onclick="gpgSel()">
+      <input type="submit" value="Get Data"       onclick="gpgData()">
+      <input type="submit" value="Get Sig Key"    onclick="gpgKey()">
+  
+      <br/><hr width="30%" />
+
+      <h3>monitor</h3>
+      <table>        
+        <tr><td> dwTimeout (ms) </td><td> <input type="text"   name="dwTimeout"        size="80" value="0"> </td></tr>  
+        <tr><td> dwCurrentState </td><td> <input type="text"   name="dwCurrentState"   size="80" value="0"> </td></tr>  
+        <tr><td> dwEventState   </td><td> <input type="text"   name="dwEventState"     size="80" readonly>  </td></tr>  
+        <tr><td> bAtr           </td><td> <input type="text"   name="evtAtr"           size="80" readonly>  </td></tr>
+      </table>
+      <input type="submit" value="GetStatusChange"  onclick="SCard_GetStatusChange()">  <br/>
+
+      <br/><hr width="70%" />
+
+      <h2> Advanced </h2>
+      <h3>Control</h3>
+      <table>        
+        <tr><td> dwControlCode </td><td> <input type="text"   name="dwControlCode"   size="80">           </td></tr>  
+        <tr><td> in            </td><td> <input type="text"   name="ctrlIN"          size="80"         >  </td></tr>  
+        <tr><td> out           </td><td> <input type="text"   name="ctrlOUT"         size="80" readonly>  </td></tr>
+      </table>
+      <input type="submit" value="Control"            onclick="SCard_Control()" disabled><br/>
+
+      <br/><hr width="30%" />      
+      <h3>Attibutes</h3>
+
+       <table>
+         <tr>
+           <td> Attribute  </td>
+           <td> <select name="attlst">
+               <option value="SCARD_ATTR_VENDOR_NAME">SCARD_ATTR_VENDOR_NAME</option>
+               <option value="SCARD_ATTR_VENDOR_IFD_TYPE">SCARD_ATTR_VENDOR_IFD_TYPE</option>
+               <option value="SCARD_ATTR_VENDOR_IFD_VERSION">SCARD_ATTR_VENDOR_IFD_VERSION</option>
+               <option value="SCARD_ATTR_VENDOR_IFD_SERIAL_NO">SCARD_ATTR_VENDOR_IFD_SERIAL_NO</option>
+               <option value="SCARD_ATTR_CHANNEL_ID">SCARD_ATTR_CHANNEL_ID</option>
+               <option value="SCARD_ATTR_ASYNC_PROTOCOL_TYPES">SCARD_ATTR_ASYNC_PROTOCOL_TYPES</option>
+               <option value="SCARD_ATTR_DEFAULT_CLK">SCARD_ATTR_DEFAULT_CLK</option>
+               <option value="SCARD_ATTR_MAX_CLK">SCARD_ATTR_MAX_CLK</option>
+               <option value="SCARD_ATTR_DEFAULT_DATA_RATE">SCARD_ATTR_DEFAULT_DATA_RATE</option>
+               <option value="SCARD_ATTR_MAX_DATA_RATE">SCARD_ATTR_MAX_DATA_RATE</option>
+               <option value="SCARD_ATTR_MAX_IFSD">SCARD_ATTR_MAX_IFSD</option>
+               <option value="SCARD_ATTR_SYNC_PROTOCOL_TYPES">SCARD_ATTR_SYNC_PROTOCOL_TYPES</option>
+               <option value="SCARD_ATTR_POWER_MGMT_SUPPORT">SCARD_ATTR_POWER_MGMT_SUPPORT</option>
+               <option value="SCARD_ATTR_USER_TO_CARD_AUTH_DEVICE">SCARD_ATTR_USER_TO_CARD_AUTH_DEVICE</option>
+               <option value="SCARD_ATTR_USER_AUTH_INPUT_DEVICE">SCARD_ATTR_USER_AUTH_INPUT_DEVICE</option>
+               <option value="SCARD_ATTR_CHARACTERISTICS">SCARD_ATTR_CHARACTERISTICS</option>
+               <option value="SCARD_ATTR_CURRENT_PROTOCOL_TYPE">SCARD_ATTR_CURRENT_PROTOCOL_TYPE</option>
+               <option value="SCARD_ATTR_CURRENT_CLK">SCARD_ATTR_CURRENT_CLK</option>
+               <option value="SCARD_ATTR_CURRENT_F">SCARD_ATTR_CURRENT_F</option>
+               <option value="SCARD_ATTR_CURRENT_D">SCARD_ATTR_CURRENT_D</option>
+               <option value="SCARD_ATTR_CURRENT_N">SCARD_ATTR_CURRENT_N</option>
+               <option value="SCARD_ATTR_CURRENT_W">SCARD_ATTR_CURRENT_W</option>
+               <option value="SCARD_ATTR_CURRENT_IFSC">SCARD_ATTR_CURRENT_IFSC</option>
+               <option value="SCARD_ATTR_CURRENT_IFSD">SCARD_ATTR_CURRENT_IFSD</option>
+               <option value="SCARD_ATTR_CURRENT_BWT">SCARD_ATTR_CURRENT_BWT</option>
+               <option value="SCARD_ATTR_CURRENT_CWT">SCARD_ATTR_CURRENT_CWT</option>
+               <option value="SCARD_ATTR_CURRENT_EBC_ENCODING">SCARD_ATTR_CURRENT_EBC_ENCODING</option>
+               <option value="SCARD_ATTR_EXTENDED_BWT">SCARD_ATTR_EXTENDED_BWT</option>
+               <option value="SCARD_ATTR_ICC_PRESENCE">SCARD_ATTR_ICC_PRESENCE</option>
+               <option value="SCARD_ATTR_ICC_INTERFACE_STATUS">SCARD_ATTR_ICC_INTERFACE_STATUS</option>
+               <option value="SCARD_ATTR_CURRENT_IO_STATE">SCARD_ATTR_CURRENT_IO_STATE</option>
+               <option value="SCARD_ATTR_ATR_STRING">SCARD_ATTR_ATR_STRING</option>
+               <option value="SCARD_ATTR_ICC_TYPE_PER_ATR">SCARD_ATTR_ICC_TYPE_PER_ATR</option>
+               <option value="SCARD_ATTR_ESC_RESET">SCARD_ATTR_ESC_RESET</option>
+               <option value="SCARD_ATTR_ESC_CANCEL">SCARD_ATTR_ESC_CANCEL</option>
+               <option value="SCARD_ATTR_ESC_AUTHREQUEST">SCARD_ATTR_ESC_AUTHREQUEST</option>
+               <option value="SCARD_ATTR_MAXINPUT">SCARD_ATTR_MAXINPUT</option>
+               <option value="SCARD_ATTR_DEVICE_UNIT">SCARD_ATTR_DEVICE_UNIT</option>
+               <option value="SCARD_ATTR_DEVICE_IN_USE">SCARD_ATTR_DEVICE_IN_USE</option>
+               <option value="SCARD_ATTR_DEVICE_FRIENDLY_NAME">SCARD_ATTR_DEVICE_FRIENDLY_NAME</option>
+               <option value="SCARD_ATTR_DEVICE_SYSTEM_NAME">SCARD_ATTR_DEVICE_SYSTEM_NAME</option>
+               <option value="SCARD_ATTR_SUPRESS_T1_IFS_REQUEST">SCARD_ATTR_SUPRESS_T1_IFS_REQUEST</option>
+             </select>  
+           </td>
+         </tr>
+         <tr><td> value </td><td> <input type="text"   name="bAttrib"     size="80" readonly> </td><tr>
+       </table>
+       <input type="submit" value="SetAttribute"   onclick="SCard_SetAttribute()" disabled>
+       <input type="submit" value="GetAttribute"   onclick="SCard_GetAttribute()" disabled>
+
+      <br/><br/><hr><hr/>
+
+      <h1>LOG:</h1>
+      <input type="submit" value="Clear"  onclick="clearLog()">  <br/></br>
+      <table>        
+        <tr><td> LOG    </td><td> <textarea   name="log"      cols="80" rows="25" > </textarea></td></tr>
+      </table>        
+    </form>
+
+    <hr/><hr/>
+    
+  </body>
+</html>
